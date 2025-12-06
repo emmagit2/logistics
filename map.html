@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Modern Logistics Delivery Map</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      background: #111;
+    }
+
+    .delivery-map-section {
+      width: 100%;
+      height: 100vh;
+      position: relative;
+    }
+
+    .map-area {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+
+    .map-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Modern Small Info Card */
+    .location-display-card {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      width: 240px;
+      background: #fff;
+      color: #111;
+      padding: 16px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
+      z-index: 999;
+      transition: transform 0.3s ease;
+    }
+
+    .location-display-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .location-display-card h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .loc-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      font-size: 14px;
+    }
+
+    .loc-item:hover {
+      background: #e6f7ff;
+      transform: translateX(3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .loc-item i {
+      font-size: 14px;
+      margin-right: 6px;
+      color: #007bff;
+    }
+
+    /* Status badges small and clean */
+    .status {
+      padding: 2px 6px;
+      border-radius: 20px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .status i { font-size: 10px; }
+
+    .status.active { background: rgba(0,200,83,0.12); color: #00a14b; }
+    .status.in-transit { background: rgba(255,193,7,0.12); color: #e69100; }
+    .status.delivered { background: rgba(33,150,243,0.12); color: #1976d2; }
+
+    /* Update badge */
+    .update-badge {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: rgba(0,0,0,0.06);
+      padding: 2px 8px;
+      border-radius: 50px;
+      font-size: 10px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      color: #444;
+      font-weight: 500;
+      z-index: 1000;
+    }
+
+    .update-badge i { font-size: 10px; }
+
+    /* Bottom Stats */
+    .bottom-stats {
+      position: absolute;
+      bottom: 30px;
+      left: 30px;
+      width: 300px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+      z-index: 999;
+      transition: transform 0.3s ease;
+    }
+
+    .bottom-stats div { text-align: center; flex: 1; }
+    .bottom-stats b { display: block; font-size: 18px; color: #7ace24; }
+
+    @media(max-width:900px) {
+      .location-display-card, .bottom-stats {
+        position: relative;
+        width: 90%;
+        left: 0;
+        top: 0;
+        margin: 16px auto;
+      }
+
+      .delivery-map-section { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body>
+<section class="delivery-map-section">
+  <div class="map-area">
+    <div id="map"></div>
+    <div class="map-overlay"></div>
+
+    <!-- Small Modern Info Card -->
+    <div class="location-display-card" id="deliveryCard">
+      <div class="update-badge" id="updateBadge"><i class="fas fa-rotate"></i> Updated just now</div>
+      <h2><i class="fas fa-truck"></i> Delivery</h2>
+
+      <div class="loc-item" data-lat="6.5244" data-lng="3.3792">
+        <div class="loc-left"><i class="fas fa-map-marker-alt"></i> <b>Lagos</b></div>
+        <span class="status active"><i class="fas fa-check-circle"></i></span>
+      </div>
+
+      <div class="loc-item" data-lat="9.0765" data-lng="7.3986">
+        <div class="loc-left"><i class="fas fa-map-marker-alt"></i> <b>Abuja</b></div>
+        <span class="status in-transit"><i class="fas fa-shipping-fast"></i></span>
+      </div>
+
+      <div class="loc-item" data-lat="4.8156" data-lng="7.0498">
+        <div class="loc-left"><i class="fas fa-map-marker-alt"></i> <b>Port Harcourt</b></div>
+        <span class="status delivered"><i class="fas fa-check"></i></span>
+      </div>
+
+      <div class="loc-item" data-lat="5.033" data-lng="7.933">
+        <div class="loc-left"><i class="fas fa-map-marker-alt"></i> <b>Uyo</b></div>
+        <span class="status active"><i class="fas fa-check-circle"></i></span>
+      </div>
+    </div>
+
+    <!-- Bottom Stats -->
+    <div class="bottom-stats">
+      <div><b>12</b>States</div>
+      <div><b>300</b>Packages</div>
+      <div><b>96%</b>Uptime</div>
+    </div>
+  </div>
+</section>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+const map = L.map("map").setView([8.9,7.48],6);
+
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18}).addTo(map);
+
+const GreenIcon = L.DivIcon.extend({
+  options:{
+    className:"marker-green",
+    html:`<span style="
+      width:16px;height:16px;
+      display:block;
+      background:#7ace24;
+      border-radius:50%;
+      border:2px solid #fff;
+      box-shadow:0 0 8px #7ace24;
+    "></span>`,
+    iconSize:[18,18],
+    iconAnchor:[9,9]
+  }
+});
+
+document.querySelectorAll('.loc-item').forEach(el=>{
+  const lat = parseFloat(el.dataset.lat);
+  const lng = parseFloat(el.dataset.lng);
+  const marker = L.marker([lat,lng],{icon:new GreenIcon()}).addTo(map);
+  marker.bindPopup(`<b>${el.querySelector('b').innerText}</b>`);
+
+  el.addEventListener('click',()=>{
+    map.setView([lat,lng],12);
+    marker.openPopup();
+    el.style.transform = "scale(1.05)";
+    setTimeout(()=>{ el.style.transform = "scale(1)"; },300);
+  });
+});
+
+function updateTime() {
+  const badge = document.getElementById('updateBadge');
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2,'0');
+  const minutes = now.getMinutes().toString().padStart(2,'0');
+  badge.innerHTML = `<i class="fas fa-rotate"></i> Updated ${hours}:${minutes}`;
+}
+
+updateTime();
+setInterval(updateTime, 7200000); // every 2 hours
+</script>
+</body>
+</html>
