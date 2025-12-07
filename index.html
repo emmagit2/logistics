@@ -13,6 +13,7 @@
 
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     /* ---------- RESET & BASE ---------- */
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
@@ -47,8 +48,19 @@
     .hero-left{grid-column:1/7;color:white}
     .hero-right{grid-column:8/13;display:flex;align-items:center;justify-content:center}
 
-    .kicker{display:inline-block;background:rgba(255,255,255,0.08);padding:8px 12px;border-radius:999px;font-weight:700;margin-bottom:18px}
-    h1{font-size:64px;line-height:0.98;margin-bottom:18px;font-weight:800}
+   .kicker {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-family: 'Poppins';
+    margin-bottom: 10px;
+    background: white;
+    font-size: 13px;
+    color: #437e34;
+}
+  
     p.lead{font-size:18px;max-width:600px;margin-bottom:26px;color:rgba(255,255,255,0.95)}
 
     .hero-ctas{display:flex;gap:16px}
@@ -62,8 +74,26 @@
     .stat .lbl{font-size:12px;color:rgba(255,255,255,0.8)}
 
     /* right image card */
-    .card-asset{width:100%;max-width:420px;background-color:white;border-radius:14px;overflow:hidden;box-shadow:0 12px 40px rgba(4,4,4,0.18);padding:14px}
-    .card-asset img{display:block;width:100%;height:auto; }
+.card-asset {
+  width: 100%;
+  max-width: 420px;
+    background-color: white; 
+     border-radius: 14px;
+  overflow: hidden;
+  padding: 14px;
+}
+
+.card-asset img {
+  display: block;
+  width: 100%;
+  height: auto;
+      background: #ffffff1a;
+  /* circular cut at the bottom */
+  clip-path: ellipse(60% 100% at 50% 0%);
+  transition: clip-path 0.3s ease;
+}
+
+
 
     /* ---------- SOLUTIONS / SERVICES ---------- */
 
@@ -97,18 +127,14 @@
     overflow: hidden;
 
 }
+.hero-left h1{
+  font-size: 52px;
+  font-family: poppins;
+  line-height: 49px;
+  padding-bottom: 15px;
+  font-weight: 600;
 
-.hero-right-abs {
-  position: absolute;
-  bottom: 50px;             /* You can change the placement */
-  right: 10%;             /* Stick to the right side */
-  width:70%;         /* size (change if needed) */
-  height: auto;
-  object-fit: contain;
-  pointer-events: none;
-  z-index: 8;
 }
-
 
 .about-logistics {
   padding: 80px 20px;
@@ -690,6 +716,7 @@ margin: auto;
       inset: 0;
       background: rgba(0,0,0,0.2);
       z-index: 2;
+      height: 70vh;
       pointer-events: none;
     }
 
@@ -849,7 +876,7 @@ header.site-header {
 .brand .title { font-weight: 700; font-size: 18px; color: #111; }
 
 /* Desktop nav links */
-nav.desktop-nav ul { display: flex; gap: 26px; list-style: none; }
+nav.desktop-nav ul { display: flex; gap: 26px; list-style: none; margin:0px;}
 nav.desktop-nav ul li a { color: #111; text-decoration: none; font-weight: 600; font-size: 14px; opacity: .9; }
 nav.desktop-nav ul li a:hover { color: #1c6ef2; }
 
@@ -1002,6 +1029,12 @@ header.site-header.scrolled .site-nav {
 header.site-header, .mobile-menu, .hamburger span {
   transition: all 0.3s ease;
 }
+
+@media (max-width: 576px) {
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+}
   </style>
 
 </head>
@@ -1090,7 +1123,7 @@ header.site-header, .mobile-menu, .hamburger span {
           <!-- using the uploaded image file as visual asset -->
           <img src="assets/design.png" alt="Logistics Truck Visual">
         </div>
-    <img src="assets/wave.svg" alt="Extra Delivery Asset" class="hero-right-abs">
+    <!-- <img src="assets/wave.svg" alt="Extra Delivery Asset" class="hero-right-abs"> -->
 
       </div>
     </div>
