@@ -593,7 +593,7 @@ margin: auto;
 
 /* Cards */
 .process-card {
-  background: #f7f9fc;
+  background: white;
   border-radius: 20px;
   padding: 50px 20px 30px;
   flex: 1 1 250px;
@@ -1010,7 +1010,11 @@ header.site-header.scrolled .site-nav {
 @media(min-width:900px){
   .mobile-menu {
     width: 350px;   /* normal sidebar width */
-    right: -450px;  /* hide it exactly by width */
+    right: -600px; 
+    top: -30%;
+ margin: 0;
+    height: 100vh !important;
+     /* hide it exactly by width */
   }
   .mobile-menu.active {
     right: -20%;       /* slide fully into view */
@@ -1107,7 +1111,8 @@ header.site-header, .mobile-menu, .hamburger span {
     <div class="hero-inner container">
       <div class="hero-left">
         <span class="kicker">Transport &amp; Logistics</span>
-        <h1>Smart logistics for modern businesses</h1>
+        <h1>Smart logistics <br>
+          for modern<br> businesses</h1>
         <p class="lead">We move goods quickly, safely and reliably across road, air &amp; sea — with real-time tracking, customs support and tailored fulfillment for enterprise clients.</p>
 
         <div class="hero-ctas">
