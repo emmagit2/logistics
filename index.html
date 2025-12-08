@@ -15,9 +15,14 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
     /* ---------- RESET & BASE ---------- */
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:auto;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
-    body{color:#111; overflow-x: hidden;}
+    *{box-sizing:border-box;margin:0;padding:0;
+
+ 
+
+    }
+    html,body{height:100%;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial,  /* hides accidental horizontal scroll */
+}
+    body{color:#111;line-height:1.4;overflow-x: hidden;}
 
     :root{
       --brand-deep:#00783b; /* user provided */
@@ -31,11 +36,14 @@
   max-width: 100% !important;
 }
 
+
+
+
     /* ---------- NAV ---------- */
     
 
     /* ---------- HERO (grid-based) ---------- */
-    .hero{position:relative;height:auto;display:grid;grid-template-columns:repeat(12,1fr);align-items:center;overflow:hidden}
+    .hero{position:relative;height:auto;display:grid;grid-template-columns:repeat(12,1fr);align-items:center;}
 
     /* background video - use your video; fallback image uses uploaded file */
     .hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
@@ -542,14 +550,8 @@ margin: auto;
   overflow: hidden;
 }
 
-.process-bg-img {
-  position: absolute;
-  top: -50px;
-  right: -50px;
-  width: 300px;
-  opacity: 0.1;
-  z-index: 0;
-}
+
+
 
 .process-title {
   font-size: 36px;
@@ -576,7 +578,7 @@ margin: auto;
   flex-wrap: wrap;
   gap: 30px;
   justify-content: center;
-  flex-direction: column;
+
   position: relative;
   z-index: 1;
 }
@@ -899,7 +901,7 @@ header.site-header, .mobile-menu, .hamburger span {
     .hero-inner {
       display: flex;
       flex-direction: column;
-      margin-top: 15%;
+      padding: 23%;
 }
 
 
@@ -1005,7 +1007,7 @@ header.site-header, .mobile-menu, .hamburger span {
 
 <!-- MODERN STEP-BY-STEP DELIVERY PROCESS WITH CURVED LINE AND BUTTON -->
 <section class="modern-delivery-process">
-  <div class="container" style="overflow: hidden;">
+  <div class="container">
     <h2 class="process-title">How We Deliver</h2>
     <p class="process-subtitle">A transparent, step-by-step approach to ensure your shipment reaches safely.</p>
 
@@ -1046,8 +1048,7 @@ header.site-header, .mobile-menu, .hamburger span {
     </div>
   </div>
 
-  <!-- Decorative background image -->
-  <img src="https://images.unsplash.com/photo-1603052875833-9f8f0a33f0ab?auto=format&fit=crop&w=800&q=60" class="process-bg-img" alt="delivery illustration">
+
 </section>
 
 
@@ -1251,7 +1252,7 @@ header.site-header, .mobile-menu, .hamburger span {
 
 .footer-logo img{
   width: 100%;
-    border-radius: 8px;
+    border-radius: 10px;
 
 }
 .footer-desc {
@@ -1391,6 +1392,30 @@ closeBtn.addEventListener('click', () => {
 });
 </script>
 
+<script>
+function checkAllOverflow() {
+  const allElements = document.body.querySelectorAll("*");
+  
+  allElements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    const overflowRight = rect.right - window.innerWidth;
+    const overflowLeft = rect.left;
+    
+    if (overflowRight > 0 || overflowLeft < 0) {
+      el.style.outline = "2px solid red";
+      console.log(
+        "Overflowing element:",
+        el,
+        "Overflow Right:", overflowRight + "px",
+        "Overflow Left:", overflowLeft + "px"
+      );
+    }
+  });
+}
+
+checkAllOverflow();
+window.addEventListener("resize", checkAllOverflow);
+</script>
 
 
 
