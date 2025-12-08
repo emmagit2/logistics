@@ -1,0 +1,364 @@
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nigeria Live Truck Tracker with Testimonials</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f6fa;
+  }
+
+  /* Container */
+  .container_delivery {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    flex-direction: row;
+  }
+
+  /* Map */
+  #map {
+    flex: 2;
+    position: relative;
+    min-height: 300px;
+  }
+
+  /* States toggle */
+  #statesListContainer {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  #toggleStates {
+    background: #ff8c00;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 5px;
+    transition: 0.3s;
+  }
+  #toggleStates:hover { background: #e67e00; }
+  #statesList {
+    display: none;
+    background: rgba(0,0,0,0.75);
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  #statesList span {
+    padding: 5px 10px;
+    background: #f39c12;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.3s;
+  }
+  #statesList span:hover { background: #e67e22; }
+
+  /* Badge */
+  .badge-container {
+    position: absolute;
+    background: #fff;
+    border-radius: 8px;
+    padding: 4px 8px;
+    font-weight: bold;
+    display: flex;
+    gap: 4px;
+    font-size: 11px;
+    z-index: 900;
+    pointer-events: none;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    transform: translate(-50%, -50%);
+  }
+  .badge {
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 10px;
+    color: white;
+  }
+  .delivered { background-color: #27ae60; }
+  .in-transit { background-color: #f1c40f; color: #000; }
+  .ongoing { background-color: #2980b9; }
+
+  /* Right panel */
+  .testimonial-panel {
+    flex: 1;
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    padding: 20px;
+    box-shadow: -2px 0 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  /* Tracking */
+  .tracking-section {
+    margin-bottom: 15px;
+  }
+  .tracking-section h2 { font-size: 20px; font-weight: 700; margin:0 0 6px 0; color:#222;}
+  .tracking-section p { font-size:13px;color:#555;margin-bottom:8px;}
+  .tracking-input {
+    width:100%; padding:8px 10px; border-radius:12px; border:1px solid #ccc; margin-bottom:8px; font-size:14px;
+    transition:0.3s;
+  }
+  .tracking-input:focus { outline:none; border-color:#ff8c00; box-shadow:0 0 8px rgba(255,140,0,0.4);}
+  .track-btn {
+    width:100%; padding:10px; border:none; border-radius:12px; background:#ff8c00; color:#fff; font-weight:bold;
+    cursor:pointer; transition:0.3s;
+  }
+  .track-btn:hover { background:#e67e00;}
+
+  /* Modern Driver Card */
+  #driverLocation {
+    background: linear-gradient(135deg,#ff8c00,#e67e00);
+    color:white;
+    padding:12px 16px;
+    border-radius:16px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    margin-bottom:15px;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s;
+  }
+  #driverLocation span {
+    font-weight: normal;
+    display:block;
+    font-size: 14px;
+    margin-top:4px;
+  }
+
+  /* Testimonials */
+  .testimonials {
+    overflow-x: auto;
+    display: flex;
+    padding-bottom: 10px;
+    cursor: grab;
+    gap:12px;
+  }
+  .testimonials:active { cursor: grabbing; }
+  .testimonial {
+    flex: 0 0 48%;
+    display: flex;
+    background: #fff;
+    padding: 12px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    transition: 0.3s;
+  }
+  .testimonial:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+  }
+  .testimonial img {
+    width:50px; height:50px; border-radius:50%; object-fit:cover; margin-right:12px;
+  }
+  .testimonial-content { display:flex; flex-direction:column;}
+  .testimonial-content p { font-size:13px; color:#555; margin:0 0 5px 0;}
+  .author { font-weight:bold; font-size:12px; color:#222; }
+  .role { font-size:11px; color:#888; }
+
+  /* Responsive */
+  @media(max-width:1200px){
+    .testimonial { flex: 0 0 45%; }
+  }
+
+  @media(max-width:900px){
+    .container_delivery { flex-direction: column; height:auto; }
+    #map { flex:1; height:50vh; min-height:300px; }
+    .testimonial-panel { width:100%; padding:15px; }
+    .testimonial { flex:0 0 80%; }
+  }
+
+  @media(max-width:600px){
+    #toggleStates { font-size:14px; padding:5px 10px; }
+    .tracking-section h2 { font-size:18px; }
+    .tracking-input, .track-btn { font-size:13px; padding:8px; }
+    #driverLocation { font-size:14px; padding:10px; }
+    .testimonial { flex:0 0 95%; flex-direction: column; }
+    .testimonial img { margin-bottom:8px; width:40px; height:40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container_delivery">
+  <div id="map">
+    <div id="statesListContainer">
+      <button id="toggleStates">Show/Hide States</button>
+      <div id="statesList"></div>
+    </div>
+  </div>
+
+  <div class="testimonial-panel">
+    <div class="tracking-section">
+      <h2>Live Tracking</h2>
+      <p>Enter your tracking ID to see your delivery in real-time:</p>
+      <input type="text" class="tracking-input" placeholder="Tracking ID">
+      <button class="track-btn">Track Now</button>
+    </div>
+
+    <div id="driverLocation">
+      Driver Location: N/A
+      <span>Click a truck on the map to see details</span>
+    </div>
+
+    <h1>User Feedback</h1>
+    <div class="testimonials">
+      <div class="testimonial">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Ada U.">
+        <div class="testimonial-content">
+          <p>"Seeing my delivery move live is amazing. Saved me so much time!"</p>
+          <div class="author">Ada U.</div>
+          <div class="role">Logistics Manager</div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="Chuka E.">
+        <div class="testimonial-content">
+          <p>"Modern interface and badges make tracking very easy."</p>
+          <div class="author">Chuka E.</div>
+          <div class="role">Warehouse Supervisor</div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <img src="https://randomuser.me/api/portraits/women/55.jpg" alt="Funmi O.">
+        <div class="testimonial-content">
+          <p>"Clean, modern map and real-time truck tracking. Very intuitive!"</p>
+          <div class="author">Funmi O.</div>
+          <div class="role">Operations Lead</div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <img src="https://randomuser.me/api/portraits/men/66.jpg" alt="Emeka K.">
+        <div class="testimonial-content">
+          <p>"Excellent service, driver kept me updated the whole time."</p>
+          <div class="author">Emeka K.</div>
+          <div class="role">Dispatch Coordinator</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  // Map setup
+  const map = L.map('map').setView([9.0820, 8.6753], 6);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
+  const truckIcon = L.icon({ iconUrl:'https://cdn-icons-png.flaticon.com/512/713/713311.png', iconSize:[28,28], iconAnchor:[14,14] });
+
+  let statesData = [], stateLayers = [], vehicleMarkers = [];
+  const driverDiv = document.getElementById('driverLocation');
+
+  function getStateLatLngs(state){
+    const latlngs = [];
+    state.lgas.forEach(lga=>lga.wards.forEach(ward=>{
+      if(ward.latitude && ward.longitude) latlngs.push([ward.latitude,ward.longitude]);
+    }));
+    return latlngs;
+  }
+
+  function addStateBadges(bounds){
+    const center = bounds.getCenter();
+    const container = L.DomUtil.create('div','badge-container', map.getPanes().overlayPane);
+    container.style.left = map.latLngToLayerPoint(center).x+'px';
+    container.style.top = map.latLngToLayerPoint(center).y+'px';
+    container.innerHTML = `
+      <div class="badge delivered">${Math.floor(Math.random()*50)}✓</div>
+      <div class="badge in-transit">${Math.floor(Math.random()*50)}⇄</div>
+      <div class="badge ongoing">${Math.floor(Math.random()*50)}•</div>
+    `;
+    return container;
+  }
+
+  function displayRandomStates(){
+    if(!statesData.length) return;
+    const statesListDiv = document.getElementById('statesList');
+    statesListDiv.innerHTML='';
+    stateLayers.forEach(s=>map.removeLayer(s.rect));
+    vehicleMarkers.forEach(v=>map.removeLayer(v));
+    document.querySelectorAll('.badge-container').forEach(b=>b.remove());
+    stateLayers=[]; vehicleMarkers=[];
+
+    const shuffled = [...statesData].sort(()=>0.5-Math.random());
+    const selectedStates = shuffled.slice(0,5);
+
+    selectedStates.forEach(state=>{
+      const latlngs = getStateLatLngs(state);
+      if(!latlngs.length) return;
+      const bounds = L.latLngBounds(latlngs);
+      const rect = L.rectangle(bounds,{color:"orange",weight:2,fillOpacity:0.15}).addTo(map);
+      rect.on('click',()=>map.fitBounds(bounds));
+      const span = document.createElement('span');
+      span.textContent = state.state;
+      span.onclick = ()=>map.fitBounds(bounds);
+      statesListDiv.appendChild(span);
+      addStateBadges(bounds);
+
+      for(let i=0;i<2;i++){
+        const lat = bounds.getSouthWest().lat + Math.random()*(bounds.getNorthEast().lat-bounds.getSouthWest().lat);
+        const lng = bounds.getSouthWest().lng + Math.random()*(bounds.getNorthEast().lng-bounds.getSouthWest().lng);
+        const marker = L.marker([lat,lng],{icon:truckIcon}).addTo(map);
+        marker.bindPopup(`Driver: Truck ${i+1} <br> Location: ${state.state}`).openPopup();
+
+        marker.on('click', ()=>{ 
+          driverDiv.innerHTML = `Driver Location: Truck ${i+1} <br><span>${state.state}</span>`; 
+        });
+
+        vehicleMarkers.push(marker);
+      }
+
+      stateLayers.push({rect});
+    });
+  }
+
+  axios.get("https://temikeezy.github.io/nigeria-geojson-data/data/full.json")
+    .then(res=>{
+      statesData=res.data;
+      displayRandomStates();
+      setInterval(displayRandomStates,300000);
+    }).catch(err=>console.error(err));
+
+  // Toggle states
+  const toggleBtn = document.getElementById('toggleStates');
+  const statesList = document.getElementById('statesList');
+  toggleBtn.addEventListener('click', ()=>{ statesList.style.display = statesList.style.display==='flex' ? 'none':'flex'; });
+
+  // Drag to scroll testimonials
+  const slider = document.querySelector('.testimonials');
+  let isDown = false, startX, scrollLeft;
+  slider.addEventListener('mousedown', e => { isDown=true; slider.classList.add('active'); startX=e.pageX-slider.offsetLeft; scrollLeft=slider.scrollLeft; });
+  slider.addEventListener('mouseleave', ()=>{ isDown=false; slider.classList.remove('active'); });
+  slider.addEventListener('mouseup', ()=>{ isDown=false; slider.classList.remove('active'); });
+  slider.addEventListener('mousemove', e => { if(!isDown) return; e.preventDefault(); const x = e.pageX-slider.offsetLeft; const walk=(x-startX)*2; slider.scrollLeft=scrollLeft-walk; });
+</script>
+
+</body>
+</html>
