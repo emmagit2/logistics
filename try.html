@@ -219,8 +219,9 @@
     <div class="tracking-section">
       <h2>Live Tracking</h2>
       <p>Enter your tracking ID to see your delivery in real-time:</p>
-      <input type="text" class="tracking-input" placeholder="Tracking ID">
-      <button class="track-btn">Track Now</button>
+  <input type="text" id="trackingInput" class="tracking-input" placeholder="Tracking ID">
+<button class="track-btn" onclick="startTracking()">Track Now</button>
+
     </div>
 
     <div id="driverLocation">
@@ -268,7 +269,18 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
 <script>
+
+
+  const SUPABASE_URL = "https://xncutsnsqmgboacqnvlj.supabase.co";
+const SUPABASE_KEY = "sb_publishable_CaIZ6ht7hq1bBE8hxer8yA_wrKa7Nta";
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let liveMarker = null;
+let liveChannel = null;
+
   // Map setup
   const map = L.map('map').setView([9.0820, 8.6753], 6);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18 }).addTo(map);
@@ -328,9 +340,7 @@
         const marker = L.marker([lat,lng],{icon:truckIcon}).addTo(map);
         marker.bindPopup(`Driver: Truck ${i+1} <br> Location: ${state.state}`).openPopup();
 
-        marker.on('click', ()=>{ 
-          driverDiv.innerHTML = `Driver Location: Truck ${i+1} <br><span>${state.state}</span>`; 
-        });
+   
 
         vehicleMarkers.push(marker);
       }
@@ -358,6 +368,68 @@
   slider.addEventListener('mouseleave', ()=>{ isDown=false; slider.classList.remove('active'); });
   slider.addEventListener('mouseup', ()=>{ isDown=false; slider.classList.remove('active'); });
   slider.addEventListener('mousemove', e => { if(!isDown) return; e.preventDefault(); const x = e.pageX-slider.offsetLeft; const walk=(x-startX)*2; slider.scrollLeft=scrollLeft-walk; });
+
+
+
+
+async function startTracking() {
+  const trackingId = document.getElementById("trackingInput").value.trim();
+  if (!trackingId) return alert("Enter tracking ID");
+
+  const { data, error } = await db
+    .from("driver_location")
+    .select("*")
+    .eq("tracking_id", trackingId)
+    .single();
+
+  if (error || !data) {
+    alert("Invalid tracking ID");
+    return;
+  }
+
+  // Remove random demo trucks
+  vehicleMarkers.forEach(v => map.removeLayer(v));
+  vehicleMarkers = [];
+
+  if (liveMarker) map.removeLayer(liveMarker);
+
+  liveMarker = L.marker([data.lat, data.lng], { icon: truckIcon }).addTo(map);
+  map.setView([data.lat, data.lng], 13);
+
+  updateDriverCard(data);
+
+  if (liveChannel) db.removeChannel(liveChannel);
+
+  liveChannel = db
+    .channel(`track-${trackingId}`)
+    .on(
+      "postgres_changes",
+      {
+        event: "UPDATE",
+        schema: "public",
+        table: "driver_location",
+        filter: `tracking_id=eq.${trackingId}`
+      },
+      payload => {
+        const loc = payload.new;
+        liveMarker.setLatLng([loc.lat, loc.lng]);
+        updateDriverCard(loc);
+      }
+    )
+    .subscribe();
+}
+
+
+function updateDriverCard(loc) {
+  const diff = (Date.now() - new Date(loc.last_seen).getTime()) / 1000;
+  const status = diff > 30 ? "OFFLINE" : "LIVE";
+
+  driverDiv.innerHTML = `
+    Driver Location: ${status}
+    <span>${loc.lat.toFixed(5)}, ${loc.lng.toFixed(5)}</span>
+  `;
+}
+
 </script>
 
 </body>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Login</title>
+    <!-- Supabase v2 JS SDK -->
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        #auth-container { background: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 300px; }
+        input { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 4px; border: 1px solid #ccc; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 8px; font-weight: bold; }
+        #loginBtn { background: #2563eb; color: white; }
+        #signupBtn { background: #10b981; color: white; }
+        #googleBtn { background: #db4437; color: white; }
+        #message { color: red; font-size: 0.9rem; text-align: center; }
+        #toggleMode { background: none; color: #2563eb; font-size: 0.8rem; text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div id="auth-container">
+    <h2 id="authTitle">Login</h2>
+    <input id="email" type="email" placeholder="Email" required>
+    <input id="password" type="password" placeholder="Password" required>
+    <button id="loginBtn">Login</button>
+    <button id="signupBtn" style="display: none;">Sign Up</button>
+    <button id="googleBtn">Login with Google</button>
+    <p id="message"></p>
+    <button id="toggleMode">Switch to Sign Up</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const { createClient } = supabase
+  const _supabase = createClient('https://xncutsnsqmgboacqnvlj.supabase.co', 'sb_publishable_CaIZ6ht7hq1bBE8hxer8yA_wrKa7Nta')
+
+  const loginBtn = document.getElementById("loginBtn");
+  const signupBtn = document.getElementById("signupBtn");
+  const toggleBtn = document.getElementById("toggleMode");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const messageEl = document.getElementById("message");
+  const googleBtn = document.getElementById("googleBtn");
+  const authTitle = document.getElementById("authTitle");
+
+  let isLoginMode = true;
+
+  // -------- Toggle Login / Sign Up --------
+  toggleBtn.addEventListener("click", () => {
+    isLoginMode = !isLoginMode;
+    if(isLoginMode){
+      authTitle.textContent = "Login";
+      loginBtn.style.display = "block";
+      signupBtn.style.display = "none";
+      toggleBtn.textContent = "Switch to Sign Up";
+    } else {
+      authTitle.textContent = "Sign Up";
+      loginBtn.style.display = "none";
+      signupBtn.style.display = "block";
+      toggleBtn.textContent = "Switch to Login";
+    }
+    messageEl.textContent = "";
+  });
+
+  // -------- Email/Password Login --------
+  loginBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+    if(!email || !password){ messageEl.textContent = "Enter email and password"; return; }
+
+    const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+    if(error){ messageEl.textContent = error.message; return; }
+
+    window.location.href = "/dashboard.html";
+  });
+
+  // -------- Email/Password Sign Up --------
+  signupBtn.addEventListener("click", async () => {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value.trim();
+    if(!email || !password){ messageEl.textContent = "Enter email and password"; return; }
+
+    const { data, error } = await _supabase.auth.signUp({ email, password });
+    if(error){ messageEl.textContent = error.message; return; }
+
+    messageEl.style.color = "green";
+    messageEl.textContent = "Sign up successful! Please check your email to confirm.";
+  });
+
+  // -------- Google OAuth Login --------
+  googleBtn.addEventListener("click", async () => {
+    const { error } = await  _supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin + "/dashboard.html" }
+    });
+    if(error) messageEl.textContent = error.message;
+  });
+
+  // -------- Auto redirect if logged in --------
+  (async () => {
+    const { data: { session } } = await _supabase.auth.getSession();
+    if(session) window.location.href = "/dashboard.html";
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TrackFlow Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-gray-900 text-white p-6 flex flex-col">
+      <h1 class="text-2xl font-bold mb-8 flex items-center gap-2">📦 TrackFlow</h1>
+      <nav class="flex flex-col gap-4">
+        <a class="hover:text-blue-400 flex items-center gap-2"><span>🏠</span> Dashboard</a>
+        <a class="hover:text-blue-400 flex items-center gap-2"><span>👤</span> Customers</a>
+        <a class="hover:text-blue-400 flex items-center gap-2"><span>🚚</span> Drivers</a>
+        <a class="hover:text-blue-400 flex items-center gap-2"><span>📍</span> Tracking</a>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 p-8">
+
+      <!-- HEADER -->
+      <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800 flex items-center gap-2">📊 Dashboard</h2>
+        <button onclick="openModal()"
+                class="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 flex items-center gap-2">
+          ➕ New Tracking
+        </button>
+      </div>
+
+      <!-- STATS CARDS -->
+<!-- Dashboard Stats -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+
+  <!-- Total Tracking -->
+  <div class="bg-white rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:shadow-lg transition">
+    <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-blue-100 text-blue-600">
+      <i class="fa-solid fa-location-dot text-xl"></i>
+    </div>
+    <div>
+      <p class="text-sm text-gray-500">Total Tracking</p>
+      <p class="text-3xl font-bold text-gray-800" id="totalTracking">0</p>
+    </div>
+  </div>
+
+  <!-- Total Customers -->
+  <div class="bg-white rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:shadow-lg transition">
+    <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-green-100 text-green-600">
+      <i class="fa-solid fa-users text-xl"></i>
+    </div>
+    <div>
+      <p class="text-sm text-gray-500">Total Customers</p>
+      <p class="text-3xl font-bold text-gray-800" id="totalCustomers">0</p>
+    </div>
+  </div>
+
+  <!-- Total Drivers -->
+  <div class="bg-white rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:shadow-lg transition">
+    <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-purple-100 text-purple-600">
+      <i class="fa-solid fa-truck-fast text-xl"></i>
+    </div>
+    <div>
+      <p class="text-sm text-gray-500">Total Drivers</p>
+      <p class="text-3xl font-bold text-gray-800" id="totalDrivers">0</p>
+    </div>
+  </div>
+
+  <!-- Expiring Soon -->
+  <div class="bg-white rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:shadow-lg transition">
+    <div class="w-12 h-12 flex items-center justify-center rounded-xl bg-red-100 text-red-600">
+      <i class="fa-solid fa-clock text-xl"></i>
+    </div>
+    <div>
+      <p class="text-sm text-gray-500">Expiring Soon</p>
+      <p class="text-3xl font-bold text-red-600" id="expiringSoon">0</p>
+    </div>
+  </div>
+
+</div>
+
+
+
+      <!-- TABLES -->
+      <div class="grid grid-cols-3 gap-8">
+
+<!-- TRACKING TABLE -->
+<div class="col-span-2">
+  <h3 class="text-xl font-semibold mb-4 flex items-center gap-2 text-gray-800">
+    📍 Tracking Assignments
+  </h3>
+
+  <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    
+    <div class="overflow-x-auto h-80">
+      <table class="min-w-[1100px] w-full text-sm border-collapse">
+        
+        <!-- HEADER -->
+        <thead class="sticky top-0 bg-gray-50 z-10">
+          <tr class="text-gray-600 font-medium">
+            <th class="px-4 py-3 border-b border-gray-200">ID</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Tracking ID</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Customer</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Driver</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Pickup</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Delivery</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Expires</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Created</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Tracking Link</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Driver Approval</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Status</th>
+            <th class="px-4 py-3 border-b border-l border-gray-200">Days Left</th>
+          </tr>
+        </thead>
+
+        <!-- BODY (JS FILLS THIS) -->
+        <tbody id="trackingTable" class="text-gray-700"></tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+        <!-- DRIVER TABLE -->
+        <div>
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-xl font-bold flex items-center gap-2">🚚 Drivers</h3>
+            <button onclick="openDriverModal()"
+                    class="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 flex items-center gap-1">
+              ➕ Add Driver
+            </button>
+          </div>
+     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+
+  <div class="overflow-x-auto h-80">
+    <table class="w-full text-sm border-collapse">
+      
+      <!-- HEADER -->
+      <thead class="sticky top-0 bg-gray-50 z-10">
+        <tr class="text-gray-600 font-medium">
+          <th class="px-4 py-3 border-b border-gray-200">Name</th>
+          <th class="px-4 py-3 border-b border-l border-gray-200">Email</th>
+          <th class="px-4 py-3 border-b border-l border-gray-200">Phone</th>
+        </tr>
+      </thead>
+
+      <!-- BODY (JS FILLS THIS) -->
+      <tbody id="driverTable" class="text-gray-700"></tbody>
+
+    </table>
+  </div>
+</div>
+
+        </div>
+
+      </div>
+
+      <!-- CUSTOMER TABLE -->
+      <div class="mt-10">
+        <div class="flex justify-between items-center mb-3">
+          <h3 class="text-xl font-bold flex items-center gap-2">👤 Customers</h3>
+          <button onclick="openCustomerModal()"
+                  class="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 flex items-center gap-1">
+            ➕ Add Customer
+          </button>
+        </div>
+        <div class="bg-white shadow-md rounded-xl p-4 h-80 overflow-auto">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="border-b font-semibold text-gray-700">
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+              </tr>
+            </thead>
+            <tbody id="customerTable" class="text-gray-600 text-sm"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- MODALS -->
+
+ <!-- ADD DRIVER MODAL -->
+<div id="driverModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+  <div class="bg-white w-[480px] md:w-[500px] rounded-2xl shadow-2xl p-6 animate-fadeIn">
+    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Add Driver
+    </h3>
+
+    <div class="space-y-4">
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-user text-gray-400"></i> Driver Name</label>
+        <input id="newDriverName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300" />
+      </div>
+
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-envelope text-gray-400"></i> Driver Email</label>
+        <input id="newDriverEmail" type="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300" />
+      </div>
+
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-phone text-gray-400"></i> Driver Phone Number</label>
+        <input id="newDriverPhone" type="tel" placeholder="+1 000 000 0000" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300" />
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 mt-6">
+      <button onclick="closeDriverModal()" class="px-5 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Cancel</button>
+      <button onclick="saveDriver()" class="px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
+        <i class="fa-solid fa-save"></i> Save
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD CUSTOMER MODAL -->
+<div id="customerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+  <div class="bg-white w-[480px] md:w-[500px] rounded-2xl shadow-2xl p-6 animate-fadeIn">
+    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Add Customer
+    </h3>
+
+    <div class="space-y-4">
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-user text-gray-400"></i> Customer Name</label>
+        <input id="newCustomerName" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-300" />
+      </div>
+
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-envelope text-gray-400"></i> Customer Email</label>
+        <input id="newCustomerEmail" type="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-300" />
+      </div>
+
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-phone text-gray-400"></i> Customer Phone Number</label>
+        <input id="newCustomerPhone" type="tel" placeholder="+1 000 000 0000" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-300" />
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 mt-6">
+      <button onclick="closeCustomerModal()" class="px-5 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Cancel</button>
+      <button onclick="saveCustomer()" class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center gap-2">
+        <i class="fa-solid fa-save"></i> Save
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TRACKING MODAL -->
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+  <div class="bg-white w-[520px] md:w-[550px] rounded-2xl shadow-2xl p-6 animate-fadeIn">
+    <h3 class="text-2xl font-bold mb-6 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Generate Tracking
+    </h3>
+
+    <div class="space-y-4">
+      <!-- Tracking ID -->
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-hashtag text-gray-400"></i> Tracking ID</label>
+        <div class="flex gap-2">
+          <input id="trackingID" readonly class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100" />
+          <button onclick="generateTrackingID()" class="px-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition flex items-center gap-2">
+            <i class="fa-solid fa-sync"></i> Auto
+          </button>
+        </div>
+      </div>
+
+      <!-- Customer Name -->
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-user text-gray-400"></i> Customer Name</label>
+        <select id="custName" class="w-full p-3 border border-gray-300 rounded-lg bg-white">
+          <option value="">Select Customer</option>
+        </select>
+      </div>
+
+      <!-- Driver Name -->
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-truck text-gray-400"></i> Driver Name</label>
+        <select id="driverName" class="w-full p-3 border border-gray-300 rounded-lg bg-white">
+          <option value="">Select Driver</option>
+        </select>
+      </div>
+
+      <!-- Pickup Location -->
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-location-dot text-gray-400"></i> Pickup Location</label>
+        <input id="pickupLocation" type="text" placeholder="Enter pickup address" class="w-full p-3 border border-gray-300 rounded-lg" />
+      </div>
+
+      <!-- Delivery Location -->
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-map-marker-alt text-gray-400"></i> Delivery Location</label>
+        <input id="deliveryLocation" type="text" placeholder="Enter delivery address" class="w-full p-3 border border-gray-300 rounded-lg" />
+      </div>
+
+      <!-- Expiry Date -->
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-calendar text-gray-400"></i> Expiry Date</label>
+        <input id="expiryDate" type="date" class="w-full p-3 border border-gray-300 rounded-lg" />
+      </div>
+
+      <!-- Driver Link -->
+      <div>
+        <label class="font-semibold flex items-center gap-2"><i class="fa-solid fa-link text-gray-400"></i> Driver Link</label>
+        <input id="driverLink" readonly class="w-full p-3 border border-gray-300 rounded-lg bg-gray-100" />
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-3 mt-6">
+      <button onclick="closeModal()" class="px-5 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">Cancel</button>
+      <button onclick="saveTracking()" class="px-5 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition flex items-center gap-2">
+        <i class="fa-solid fa-save"></i> Save
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<section class="bg-[#050B20] py-16">
+  <div class="container mx-auto px-6 lg:px-20 flex flex-col lg:flex-row gap-12">
+
+    <!-- Left Column: Steps -->
+    <div class="lg:w-1/2 flex flex-col gap-6">
+      <div class="step-card flex items-start gap-4 p-6 bg-[#0A1B3C] rounded-2xl shadow-lg opacity-0 translate-y-12 transition-all duration-700">
+        <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-green-500 rounded-full text-white text-xl font-bold">
+          1
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-white">Step One</h3>
+          <p class="text-gray-300 mt-1">Brief explanation of this step.</p>
+        </div>
+      </div>
+      <div class="step-card flex items-start gap-4 p-6 bg-[#0A1B3C] rounded-2xl shadow-lg opacity-0 translate-y-12 transition-all duration-700">
+        <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-green-500 rounded-full text-white text-xl font-bold">
+          2
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-white">Step Two</h3>
+          <p class="text-gray-300 mt-1">Brief explanation of this step.</p>
+        </div>
+      </div>
+      <div class="step-card flex items-start gap-4 p-6 bg-[#0A1B3C] rounded-2xl shadow-lg opacity-0 translate-y-12 transition-all duration-700">
+        <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-green-500 rounded-full text-white text-xl font-bold">
+          3
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-white">Step Three</h3>
+          <p class="text-gray-300 mt-1">Brief explanation of this step.</p>
+        </div>
+      </div>
+      <div class="step-card flex items-start gap-4 p-6 bg-[#0A1B3C] rounded-2xl shadow-lg opacity-0 translate-y-12 transition-all duration-700">
+        <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-green-500 rounded-full text-white text-xl font-bold">
+          4
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-white">Step Four</h3>
+          <p class="text-gray-300 mt-1">Brief explanation of this step.</p>
+        </div>
+      </div>
+      <div class="step-card flex items-start gap-4 p-6 bg-[#0A1B3C] rounded-2xl shadow-lg opacity-0 translate-y-12 transition-all duration-700">
+        <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center bg-green-500 rounded-full text-white text-xl font-bold">
+          5
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-white">Step Five</h3>
+          <p class="text-gray-300 mt-1">Brief explanation of this step.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Sticky Image -->
+    <div class="lg:w-1/2 lg:sticky lg:top-24 flex justify-center lg:justify-end">
+      <img src="https://via.placeholder.com/400x600" alt="Illustration" class="rounded-2xl shadow-2xl w-full max-w-md">
+    </div>
+
+  </div>
+</section>
+<!-- Shipment Cost Button -->
+<div class="flex justify-center my-10">
+  <button id="openModal" class="px-6 py-3 bg-green-500 text-white rounded-2xl shadow hover:bg-green-600">
+    Calculate Shipment Cost
+  </button>
+</div>
+
+<!-- Modal -->
+<div id="moodal" class="fixed inset-0 bg-black bg-opacity-60 hidden items-center justify-center z-50">
+  <div class="bg-[#0B1E45] w-full max-w-lg p-8 rounded-2xl shadow-xl relative">
+    <button id="close" class="absolute top-4 right-4 text-white text-xl">&times;</button>
+    <h2 class="text-2xl text-white font-bold mb-6">Shipment Cost Calculator</h2>
+
+    <form id="form" class="flex flex-col gap-4">
+      <!-- Start State & City -->
+      <div>
+        <label class="text-white block mb-1">Pickup State</label>
+        <select id="startState" class="w-full p-3 rounded-xl bg-[#112A5B] text-white"></select>
+      </div>
+      <div>
+        <label class="text-white block mb-1">Pickup City</label>
+        <select id="startCity" class="w-full p-3 rounded-xl bg-[#112A5B] text-white"></select>
+      </div>
+
+      <!-- End State & City -->
+      <div>
+        <label class="text-white block mb-1">Delivery State</label>
+        <select id="endState" class="w-full p-3 rounded-xl bg-[#112A5B] text-white"></select>
+      </div>
+      <div>
+        <label class="text-white block mb-1">Delivery City</label>
+        <select id="endCity" class="w-full p-3 rounded-xl bg-[#112A5B] text-white"></select>
+      </div>
+
+      <div>
+        <label class="text-white block mb-1">Weight (kg)</label>
+        <input type="number" id="weight" class="w-full p-3 rounded-xl bg-[#112A5B] text-white" placeholder="Enter weight" required>
+      </div>
+
+      <button type="submit" class="bg-green-500 text-white p-3 rounded-xl hover:bg-green-600 transition">
+        Get Cost
+      </button>
+    </form>
+
+    <div id="result" class="text-white text-lg font-bold mt-6 hidden"></div>
+  </div>
+</div>
+<
+<script>
+
+  const openBtn = document.getElementById('openModal');
+const closeBtn = document.getElementById('close');
+const modal = document.getElementById('moodal');
+const form = document.getElementById('form');
+const result = document.getElementById('result');
+
+openBtn.addEventListener('click', () => {
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+});
+
+closeBtn.addEventListener('click', () => {
+  modal.classList.add('hidden');
+  result.classList.add('hidden');
+});
+
+// Load states and cities from public API
+async function loadStates() {
+  const res = await fetch('https://states-and-cities.com/api/v1/states');
+  const states = await res.json();
+  for(let st of states) {
+    document.getElementById('startState').innerHTML += `<option value="${st.name}">${st.name}</option>`;
+    document.getElementById('endState').innerHTML += `<option value="${st.name}">${st.name}</option>`;
+  }
+}
+loadStates();
+
+// Load cities when state changes
+async function loadCities(state, citySelectId) {
+  const res = await fetch(`https://states-and-cities.com/api/v1/state/${state.toLowerCase()}/cities`);
+  const cities = await res.json();
+  const sel = document.getElementById(citySelectId);
+  sel.innerHTML = ''; // clear previous
+  cities.forEach(c => sel.innerHTML += `<option value="${c.name}">${c.name}</option>`);
+}
+
+// Attach change events
+document.getElementById('startState').addEventListener('change', () => loadCities(event.target.value, 'startCity'));
+document.getElementById('endState').addEventListener('change', () => loadCities(event.target.value, 'endCity'));
+
+// Geocoding + Distance + Cost
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const startCity = document.getElementById('startCity').value;
+  const endCity = document.getElementById('endCity').value;
+  const weight = parseFloat(document.getElementById('weight').value);
+
+  result.textContent = 'Calculating...';
+  result.classList.remove('hidden');
+
+  try {
+    // Geocode start & end to get coords
+    const key = 'YOUR_GEOAPIFY_API_KEY'; // free key
+    const geo = async (place) => {
+      const r = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${place}&apiKey=${key}`);
+      const j = await r.json();
+      return j.features[0].geometry.coordinates;
+    };
+
+    const startCoords = await geo(startCity + ', Nigeria');
+    const endCoords = await geo(endCity + ', Nigeria');
+
+    // Call Geoapify Distance Matrix
+    const points = `${startCoords[1]},${startCoords[0]};${endCoords[1]},${endCoords[0]}`;
+    const distRes = await fetch(
+      `https://api.geoapify.com/v1/routematrix?points=${points}&profile=driving-car&apiKey=${key}`
+    );
+    const distJson = await distRes.json();
+    const distance_km = distJson.distance[0][1] / 1000; // meters → km
+
+    // Cost logic
+    let cost = weight * 5 + distance_km * 0.5;
+    result.textContent = `Distance: ${distance_km.toFixed(2)} km — Cost: $${cost.toFixed(2)}`;
+  } catch(err) {
+    result.textContent = 'Error calculating distance';
+  }
+});
+
+  // Animate cards sequentially as user scrolls
+  const steps = document.querySelectorAll('.step-card');
+
+  let lastScrollTop = 0;
+
+  window.addEventListener('scroll', () => {
+    const triggerBottom = window.innerHeight * 0.8;
+
+    steps.forEach(step => {
+      const rect = step.getBoundingClientRect();
+      if (rect.top < triggerBottom) {
+        step.classList.add('opacity-100', 'translate-y-0');
+        step.classList.remove('opacity-0', 'translate-y-12');
+      }
+    });
+  });
+</script>
+
+<!-- Tailwind Animations (optional) -->
+<style>
+@keyframes fadeIn {
+  from {opacity: 0; transform: scale(0.95);}
+  to {opacity: 1; transform: scale(1);}
+}
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+</style>
+
+
+
+  <!-- JAVASCRIPT: Supabase integration + app logic -->
+<script>
+   
+    const SUPABASE_URL = "https://xncutsnsqmgboacqnvlj.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_CaIZ6ht7hq1bBE8hxer8yA_wrKa7Nta";
+
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+
+// Check session on page load
+async function checkSession() {
+  const { data: { session }, error } = await db.auth.getSession();
+  if (error || !session) {
+    // JWT expired or no session → redirect to login
+    window.location.href = "/login.html";
+  }
+}
+
+// Listen for auth changes (logout, token expiration)
+db.auth.onAuthStateChange((event, session) => {
+  if (!session) {
+    // If token expires, automatically log out
+    window.location.href = "/login.html";
+  }
+});
+
+// Optional: refresh session every 5 minutes
+setInterval(async () => {
+  const { data, error } = await db.auth.refreshSession();
+  if (error) {
+    // refresh failed → force logout
+    window.location.href = "/login.html";
+  }
+}, 5 * 60 * 1000); // 5 minutes
+
+// Run session check immediately
+checkSession();
+
+async function initAuth() {
+  try {
+    // Get stored session
+    const { data: { session }, error } = await db.auth.getSession();
+    if (error) {
+      console.error(error.message);
+    }
+
+    if (!session) {
+      // Redirect to login if no session
+      window.location.href = "/login.html";
+    } else {
+      console.log("User logged in:", session.user.email);
+    }
+
+    // Listen for auth changes (logout, etc)
+    db.auth.onAuthStateChange((event, session) => {
+      if (!session) window.location.href = "/login.html";
+    });
+
+  } catch (err) {
+    console.error("Auth init error:", err);
+  }
+}
+
+// Run auth check on page load
+initAuth();
+
+    // Local state mirrors (kept for quick access to values)
+    let drivers = [];
+    let customers = [];
+    let trackingData = [];
+
+    // ---------- MODAL FUNCTIONS ----------
+    function openDriverModal(){ document.getElementById("driverModal").classList.remove("hidden"); }
+    function closeDriverModal(){ document.getElementById("driverModal").classList.add("hidden"); }
+    function openCustomerModal(){ document.getElementById("customerModal").classList.remove("hidden"); }
+    function closeCustomerModal(){ document.getElementById("customerModal").classList.add("hidden"); }
+    function openModal(){ document.getElementById("modal").classList.remove("hidden"); generateTrackingID(); }
+    function closeModal(){ document.getElementById("modal").classList.add("hidden"); }
+
+    // ---------- GENERATE TRACKING ID ----------
+    function generateTrackingID() {
+      const id = "TRK-" + Math.floor(Math.random() * 900000 + 100000);
+      document.getElementById("trackingID").value = id;
+      document.getElementById("driverLink").value = `${window.location.origin}/driver.html?tid=${id}`;
+    }
+
+    // ---------- DAYS REMAINING ----------
+    function daysRemaining(date){
+      if(!date) return Infinity;
+      const exp = new Date(date), now = new Date();
+      return Math.ceil((exp - now)/(1000*60*60*24));
+    }
+
+    // ---------- LOAD (on page open) ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      loadDrivers();
+      loadCustomers();
+      loadTracking();
+    });
+
+    // ---------- DRIVERS ----------
+async function saveDriver() {
+  const name = document.getElementById("newDriverName").value?.trim();
+  const email = document.getElementById("newDriverEmail").value?.trim();
+  const phone = document.getElementById("newDriverPhone").value?.trim();
+
+  if (!name || !email || !phone) {
+    alert("Fill all fields");
+    return;
+  }
+
+  const { error } = await db.from("drivers").insert([
+    { name, email, phone }
+  ]);
+
+  if (error) {
+    console.error(error);
+    alert("Error saving driver: " + error.message);
+    return;
+  }
+
+  // Clear fields
+  document.getElementById("newDriverName").value = "";
+  document.getElementById("newDriverEmail").value = "";
+  document.getElementById("newDriverPhone").value = "";
+
+  closeDriverModal();
+  await loadDrivers();
+  alert("Driver added successfully");
+}
+
+    async function loadDrivers(){
+      const { data, error } = await db.from("drivers").select("*").order("created_at", { ascending: false });
+      if (error) {
+        console.error(error);
+        return alert("Error loading drivers: " + error.message);
+      }
+      drivers = data || [];
+      updateDriverTable();
+      updateDropdowns();
+    }
+function updateDriverTable() {
+  document.getElementById("driverTable").innerHTML = drivers.map(d => `
+    <tr class="hover:bg-gray-50 transition">
+
+      <td class="px-4 py-3 border-b border-gray-100 font-medium text-gray-800">
+        ${escapeHtml(d.name)}
+      </td>
+
+      <td class="px-4 py-3 border-b border-l border-gray-100 text-gray-600">
+        ${escapeHtml(d.email)}
+      </td>
+
+      <td class="px-4 py-3 border-b border-l border-gray-100 text-gray-700">
+        ${escapeHtml(d.phone)}
+      </td>
+
+    </tr>
+  `).join("");
+
+  document.getElementById("totalDrivers").textContent = drivers.length;
+}
+
+
+    // ---------- CUSTOMERS ----------
+    async function saveCustomer(){
+      const name = document.getElementById("newCustomerName").value?.trim();
+      const email = document.getElementById("newCustomerEmail").value?.trim();
+      const phone = document.getElementById("newCustomerPhone").value?.trim();
+      if(!name||!email||!phone){ alert("Fill all fields"); return; }
+
+      const { error } = await db.from("customers").insert([{ name, email, phone }]);
+      if (error) {
+        console.error(error);
+        return alert("Error saving customer: " + error.message);
+      }
+
+      // clear fields & reload
+      document.getElementById("newCustomerName").value = "";
+      document.getElementById("newCustomerEmail").value = "";
+      document.getElementById("newCustomerPhone").value = "";
+      closeCustomerModal();
+      await loadCustomers();
+      alert("Customer added");
+    }
+
+    async function loadCustomers(){
+      const { data, error } = await db.from("customers").select("*").order("created_at", { ascending: false });
+      if (error) {
+        console.error(error);
+        return alert("Error loading customers: " + error.message);
+      }
+      customers = data || [];
+      updateCustomerTable();
+      updateDropdowns();
+    }
+
+  function updateCustomerTable() {
+  document.getElementById("customerTable").innerHTML = customers.map(c => `
+    <tr class="hover:bg-gray-50 transition">
+
+      <td class="px-4 py-3 border-b border-gray-100 font-medium text-gray-800">
+        ${escapeHtml(c.name)}
+      </td>
+
+      <td class="px-4 py-3 border-b border-l border-gray-100 text-gray-600">
+        ${escapeHtml(c.email)}
+      </td>
+
+      <td class="px-4 py-3 border-b border-l border-gray-100 text-gray-700">
+        ${escapeHtml(c.phone)}
+      </td>
+
+    </tr>
+  `).join("");
+
+  document.getElementById("totalCustomers").textContent = customers.length;
+}
+
+
+    // ---------- TRACKING / DELIVERIES ----------
+  async function saveTracking() {
+  const id = document.getElementById("trackingID").value?.trim();
+  const customer_id = document.getElementById("custName").value; // customer ID
+  const driver_id = document.getElementById("driverName").value; // driver ID
+  const expiry_date = document.getElementById("expiryDate").value || null;
+  const pickup_location = document.getElementById("pickupLocation").value?.trim() || null;
+  const delivery_location = document.getElementById("deliveryLocation").value?.trim() || null;
+
+  if (!id || !customer_id || !driver_id || !expiry_date || !pickup_location || !delivery_location) {
+    alert("Fill all fields");
+    return;
+  }
+
+  const channel_name = crypto.randomUUID();
+  const driver_token = crypto.randomUUID(); // NEW
+  const tracking_link = `${window.location.origin}/driver.html?tid=${id}&token=${driver_token}`; // link for driver
+
+  const { error } = await db.from("tracking").insert([{
+    tracking_id: id,
+    customer_id: parseInt(customer_id),
+    driver_id: parseInt(driver_id),
+    expiry_date,
+    pickup_location,
+    delivery_location,
+    channel_name,
+    tracking_link,
+    driver_token, // NEW
+    status: "pending",
+    driver_approved: false
+  }]);
+
+  if (error) {
+    console.error(error);
+    return alert("Error saving tracking: " + error.message);
+  }
+
+  // Clear UI / reload
+  document.getElementById("trackingID").value = "";
+  document.getElementById("expiryDate").value = "";
+  document.getElementById("pickupLocation").value = "";
+  document.getElementById("deliveryLocation").value = "";
+  closeModal();
+  await loadTracking();
+  alert("Tracking created");
+}
+
+    async function loadTracking(){
+      const { data, error } = await db.from("tracking").select("*").order("created_at", { ascending: false });
+      if (error) {
+        console.error(error);
+        return alert("Error loading tracking: " + error.message);
+      }
+
+      trackingData = (data || []).map(t => {
+        return {
+          ...t,
+          days: t.expiry_date ? daysRemaining(t.expiry_date) : Infinity
+        };
+      });
+
+      updateTrackingTable();
+    }
+
+function updateTrackingTable() {
+  const today = new Date();
+
+  document.getElementById("trackingTable").innerHTML = trackingData.map(t => {
+    const customer = customers.find(c => c.id === t.customer_id);
+    const driver = drivers.find(d => d.id === t.driver_id);
+
+    const expiryDate = t.expiry_date ? new Date(t.expiry_date) : null;
+    const isExpired = expiryDate && expiryDate < today;
+
+    // Tracking link logic
+    const trackingLink = isExpired
+      ? `<span class="text-gray-400 text-xs italic">Unavailable</span>`
+      : `<a href="${escapeHtml(t.tracking_link || "#")}"
+           target="_blank"
+           class="text-blue-600 hover:underline font-medium">View</a>`;
+
+    // Status badge
+    const statusBadge = isExpired
+      ? `<span class="px-2 py-1 text-xs rounded-full bg-red-50 text-red-600 font-medium">
+           Expired
+         </span>`
+      : `<span class="px-2 py-1 text-xs rounded-full bg-yellow-50 text-yellow-600 font-medium">
+           ${escapeHtml(t.status || "Active")}
+         </span>`;
+
+    // Driver approval badge
+    const approvalBadge = t.driver_approved
+      ? `<span class="px-2 py-1 text-xs rounded-full bg-green-50 text-green-600 font-medium">
+           Approved
+         </span>`
+      : `<span class="px-2 py-1 text-xs rounded-full bg-gray-100 text-gray-600 font-medium">
+           Pending
+         </span>`;
+
+    return `
+      <tr class="hover:bg-gray-50 transition">
+
+        <td class="px-4 py-3 border-b border-gray-100 font-medium">
+          ${escapeHtml(t.id || "")}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100 text-blue-600 font-medium">
+          ${escapeHtml(t.tracking_id || "")}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100">
+          ${escapeHtml(customer ? customer.name : "Unknown")}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100">
+          ${escapeHtml(driver ? driver.name : "Unknown")}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100">
+          ${escapeHtml(t.pickup_location || "-")}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100">
+          ${escapeHtml(t.delivery_location || "-")}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100">
+          ${expiryDate ? expiryDate.toLocaleDateString() : "-"}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100 text-gray-500">
+          ${t.created_at ? new Date(t.created_at).toLocaleString() : "-"}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100">
+          ${trackingLink}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100">
+          ${approvalBadge}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100">
+          ${statusBadge}
+        </td>
+
+        <td class="px-4 py-3 border-b border-l border-gray-100
+          ${!isExpired && t.days <= 3 ? "text-red-500 font-bold" : "text-gray-700"}">
+          ${t.days === Infinity || isExpired ? "-" : t.days}
+        </td>
+
+      </tr>
+    `;
+  }).join("");
+
+  // Stats
+  document.getElementById("totalTracking").textContent = trackingData.length;
+
+  document.getElementById("expiringSoon").textContent =
+    trackingData.filter(t => {
+      const exp = t.expiry_date ? new Date(t.expiry_date) : null;
+      return exp && exp >= today && t.days <= 3;
+    }).length;
+}
+
+
+
+
+    // ---------- UTILITIES ----------
+    // Update dropdown lists for customers & drivers
+    function updateDropdowns(){
+      const custSelect = document.getElementById("custName");
+      const driverSelect = document.getElementById("driverName");
+      custSelect.innerHTML = `<option value="">Select Customer</option>` + customers.map(c=>`<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`).join("");
+      driverSelect.innerHTML = `<option value="">Select Driver</option>` + drivers.map(d=>`<option value="${escapeHtml(d.id)}">${escapeHtml(d.name)}</option>`).join("");
+    }
+
+    // Simple escape to prevent HTML injection in table cells.
+    function escapeHtml(unsafe) {
+      if (unsafe === null || unsafe === undefined) return "";
+      return String(unsafe)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+  </script>
+
+  <style>
+    @keyframes fadeIn { from {opacity:0; transform:scale(.95);} to {opacity:1; transform:scale(1);} }
+    .animate-fadeIn { animation: fadeIn .25s ease-out; }
+  </style>
+
+</body>
+</html>
