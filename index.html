@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
 
 
   <style>
@@ -22,6 +23,9 @@
  
 
     }
+     html {
+    scroll-behavior: smooth;
+  }
     html,body{height:100%;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial,  /* hides accidental horizontal scroll */
 }
     body{color:#111;line-height:1.4;overflow-x: hidden;}
@@ -74,8 +78,13 @@
     p.lead{font-size:18px;max-width:600px;margin-bottom:26px;color:rgba(255,255,255,0.95)}
 
     .hero-ctas{display:flex;gap:16px}
-    .btn-primary{background:var(--brand-lime);color:#000;padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none}
-    .btn-secondary{background:transparent;border:2px solid rgba(255,255,255,0.18);color:#fff;padding:10px 18px;border-radius:10px;text-decoration:none}
+    .btn-primary{background:var(--brand-lime);color:white;padding:12px 22px;border-radius:15px;font-weight:700;text-decoration:none}
+    .btn-primary:hover{
+      background: transparent;
+      color: white;
+      border: 1px solid white;
+    }
+    .btn-secondary{background:white;border:2px solid rgba(255,255,255,0.18);color:green;padding:10px 18px;border-radius:10px;text-decoration:none}
 
     /* small stats */
     .stats{display:flex;gap:28px;margin-top:28px}
@@ -419,16 +428,27 @@ linear 0s;
 
 /* Button */
 .modern-btn {
-  background: linear-gradient(90deg, #00b36b, #008a53);
-  padding: 12px 26px;
+  background: white;
+  padding: 12px 18px;
   border-radius: 10px;
+  color: black;
   font-weight: 600;
   display: inline-block;
+  text-decoration: none;
   margin-top: 15px;
   transition: 0.3s ease;
   box-shadow: 0 8px 20px rgba(0, 128, 96, 0.25);
 }
+.modern-btn span{
+    background: linear-gradient(90deg, #00b36b, #008a53);
+ padding: 14px 32px;
+ border-radius: 10px 40px;
+ color: white;
 
+ 
+
+
+}
 .modern-btn:hover {
   transform: translateY(-4px);
   box-shadow: 0 14px 28px rgba(0, 128, 96, 0.35);
@@ -755,9 +775,9 @@ nav.desktop-nav ul li a:hover { color: #1c6ef2; }
   justify-content: space-between;
   width: 36px; height: 36px;
   cursor: pointer;
-  border-radius: 10%;
+  border-radius: 12%;
   padding: 6px;
-  background: #7ace24;
+  background: black;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   transition: all 0.3s;
 }
@@ -969,215 +989,8 @@ header.site-header, .mobile-menu, .hamburger span {
   .bg-dark-blue {
     background-color: #050B20 !important;
   }
-  </style>
+  
 
-</head>
-<body>
-
-  <!-- HEADER / NAV -->
- <header class="site-header" id="header">
-   <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  <div class="container site-nav">
-    <div class="brand desktop-brand">
-      <div class="logo-box">
-        <img src="assets/logo.jpg">
-      </div>
-      <div class="title">HEADSUP <br>LOGISTICS</div>
-    </div>
-
-    <!-- Desktop nav -->
-    <nav class="desktop-nav">
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#track">Track</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-
-    <a class="btn-cta desktop-cta" href="#">Sign In</a>
-
-    <!-- Hamburger -->
-   
-  </div>
-
-  <!-- Off-canvas menu -->
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="close-btn" id="closeMenu">&times;</div>
-    <div class="brand">
-      <div class="logo-box">
-                <img src="assets/logo.jpg">
-
-      </div>
-      <div class="title">HEADSUP <br>LOGISTICS</div>
-    </div>
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#track">Track</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a class="btn-cta" href="#">Sign In</a>
-  </div>
-</header>
-
-
-
-
-  <!-- HERO -->
-  <section class="hero" aria-label="Hero">
-    <!-- video (replace src with your mp4). Fallback uses uploaded image path below -->
-    <video autoplay muted loop playsinline>
-      <source src="assets/ren.mp4" type="video/mp4">
-      <!-- fallback video not supported -->
-    </video>
-
-    <!-- fallback image (uploaded by you) -->
-    <div class="video-fallback" style="background-image:url('/mnt/data/original-517bcdbaec4d34eca8ecf94315788a12.webp')"></div>
-
-    <div class="overlay" aria-hidden="true"></div>
-
-    <div class="hero-inner container">
-      <div class="hero-left">
-        <span class="kicker">Transport &amp; Logistics</span>
-        <h1>Smart logistics <br>
-          for modern<br> businesses</h1>
-        <p class="lead">We move goods quickly, safely and reliably across road, air &amp; sea — with real-time tracking, customs support and tailored fulfillment for enterprise clients.</p>
-
-        <div class="hero-ctas">
-          <a class="btn-primary" href="#services">Get Started</a>
-          <a class="btn-secondary" href="#track">Track Shipment</a>
-        </div>
-
-      
-      </div>
-
-      <div class="hero-right">
-        <div class="card-asset">
-          <!-- using the uploaded image file as visual asset -->
-          <img src="assets/design.png" alt="Logistics Truck Visual">
-        </div>
-    <!-- <img src="assets/wave.svg" alt="Extra Delivery Asset" class="hero-right-abs"> -->
-
-      </div>
-    </div>
-  </section>
-
-  <style>
-/* Mobile responsiveness */
-@media (max-width: 992px) {
-  section .container-fluid {
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-  }
-
-  section .container-fluid > div:first-child {
-    width: 100% !important;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  section .container-fluid > div:last-child {
-    flex-direction: column !important;
-    width: 100% !important;
-    gap: 1.5rem;
-  }
-
-  .card {
-    width: 90% !important;
-    height: auto !important;
-    transform: none !important;
-  }
-}
-
-
-.card:hover {
-  transform: translateY(-10px) !important;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-  transition: all 0.3s ease-in-out;
-}
-
-</style>
-<section class="position-relative text-white" style="height: 100vh;">
-  <!-- Background Image -->
- <!--  <div class="position-absolute w-100 h-100" style="background: url('assets/map.png') center/cover no-repeat;"></div>
-  <div class="position-absolute w-100 h-100" style="background: rgba(0,0,0,0.5);"></div>
- -->
-  <div class="container-fluid h-100 position-relative d-flex align-items-center justify-content-between px-5">
-    <!-- Left Text (30%) -->
-    <div class="d-flex flex-column justify-content-center" style="width: 60%;">
-   <!-- Left Text (50%) -->
-
-    <!-- Headline with icon and color splash -->
-    <h2 class="display-3 fw-bold mb-4" style="line-height: 1.2;">
-      <i class="bi bi-truck me-3" style="color: #22c55e;"></i>
-      <span style="color: #fff; background: rgba(0,0,0,0.3); padding: 0 0.5rem; border-radius: 0.3rem;">Efficient</span>
-      <span style="color: #22c55e;">Logistics</span> Across Africa
-    </h2>
-
-    <!-- Supporting text -->
-    <p class="lead" style="font-size: 1.2rem; color: black; max-width: 450px;">
-      Connecting cargo owners with trusted transporters to move shipments faster, safer, and smarter.
-    </p>
-
-    </div>
-
-    <!-- Cards Side by Side -->
- <div class="d-flex flex-wrap gap-4 justify-content-center" style="width: 65%;">
-
-  <!-- Left Card (Up) -->
-  <div class="card shadow-lg p-4 position-relative" style="width: 320px; height: 250px; border-radius: 1.5rem; transform: translateY(-20px); overflow: hidden; transition: transform 0.3s;">
-    <!-- Decorative gradient circle -->
-    <div class="position-absolute" style="top:-30px; right:-30px; width: 100px; height: 100px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; opacity: 0.2;"></div>
-    <div class="d-flex align-items-center mb-2">
-      <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-size: 1.2rem;">
-        <i class="bi bi-people-fill"></i>
-      </div>
-      <h5 class="card-title fw-bold ms-2 mb-0">HeadsUp Logistics</h5>
-    </div>
-    <p class="card-text" style="font-size: 0.9rem; line-height: 1.4;">
-      Matches cargo owners with trusted transporters to move cargo efficiently across Africa.
-    </p>
-  </div>
-
-  <!-- Right Card (Down) -->
-  <div class="card shadow-lg p-4 position-relative" style="width: 320px; height: 250px; border-radius: 1.5rem; transform: translateY(20px); overflow: hidden; transition: transform 0.3s;">
-    <!-- Decorative gradient circle -->
-    <div class="position-absolute" style="bottom:-30px; left:-30px; width: 100px; height: 100px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; opacity: 0.2;"></div>
-    <div class="d-flex align-items-center mb-2">
-      <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-size: 1.2rem;">
-        <i class="bi bi-lightning-fill"></i>
-      </div>
-      <h5 class="card-title fw-bold ms-2 mb-0">Innovation & Efficiency</h5>
-    </div>
-    <p class="card-text" style="font-size: 0.9rem; line-height: 1.4;">
-      All our innovation aims to lower the cost per km of transportation to benefit shippers while supporting transporters.
-    </p>
-  </div>
-
-</div>
-
-  </div>
-</section>
-
-
-
-
-
-
-
-
-<style>
-  .bg-dark-blue {
-    background: #050B20;
-  }
 
   /* SWITCH */
   .switch-wrapper {
@@ -1308,399 +1121,88 @@ header.site-header, .mobile-menu, .hamburger span {
       margin: 2.5rem auto;
     }
   }
-</style>
 
+/* Mobile responsiveness */
+@media (max-width: 992px) {
+  section .container-fluid {
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  section .container-fluid > div:first-child {
+    width: 100% !important;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  section .container-fluid > div:last-child {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 1.5rem;
+  }
+
+  .card {
+    width: 90% !important;
+    height: auto !important;
+    transform: none !important;
+  }
+}
+
+
+.card:hover {
+  transform: translateY(-10px) !important;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+nav a{
+  transition:all 0.3s ease;
+}
+
+nav a:hover{
+  padding: 10px;
+  background: green;
+  color: white !important;
+  border-radius: 10px;
+}
+
+
+.timeline {
+  position: relative;
+  margin-left: 15px;
+  padding-left: 25px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #198754; /* Bootstrap green */
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -1px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  background-color: #198754;
+  border-radius: 50%;
+}
+
+.timeline-content {
+  padding-left: 15px;
+}
 
-
-<section class="bg-dark-blue py-5">
-  <div class="container text-center">
-
-    <!-- SWITCH -->
-    <div class="mb-5">
-      <div class="switch-wrapper">
-        <button id="customerBtn" class="switch-btn active">Customer</button>
-        <button id="driverBtn" class="switch-btn">Driver</button>
-      </div>
-    </div>
-
-    <div class="diagram-wrapper">
-
-      <!-- CENTER IMAGE -->
-      <img src="assets/side-Photoroom.png" class="img-fluid center-image" alt="Illustration">
-
-      <!-- CUSTOMER CONTENT -->
-    <!-- CUSTOMER CONTENT -->
-<!-- CUSTOMER CONTENT -->
-<div id="customerContent">
-
-  <!-- STEP 1 -->
-  <div class="step-card step-1">
-    <div class="step-number">1</div>
-    <div class="step-body">
-      <div class="step-icon"><i class="bi bi-plus-circle"></i></div>
-      <div class="step-content">
-  <h6>Create Pickup Request</h6>
-  <p>
-    Click the button to request pickup by selecting location, destination,
-    and preferred truck.
-  </p>
-
-  <!-- Modal Trigger Button -->
-  <button 
-    class="btn btn-sm mt-2"
-    style="
-      background:#22c55e;
-      color:#fff;
-      border-radius:10px;
-      padding:10px 16px;
-      font-weight:600;
-      border:none;
-    "
-    data-bs-toggle="modal"
-    data-bs-target="#pickupRequestModal">
-    Create Request
-  </button>
-</div>
-
-    </div>
-  </div>
-
-  <!-- STEP 2 -->
-  <div class="step-card step-2">
-    <div class="step-number">2</div>
-    <div class="step-body">
-      <div class="step-icon"><i class="bi bi-shuffle"></i></div>
-      <div class="step-content">
-        <h6>Order Matching</h6>
-        <p>
-Headsup logistics matches your cargo to one of our vetted transport partners. You receive details on truck and driver.  </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 3 -->
-  <div class="step-card step-3">
-    <div class="step-number">3</div>
-    <div class="step-body">
-      <div class="step-icon"><i class="bi bi-envelope-check"></i></div>
-      <div class="step-content">
-        <h6>Tracking Code Sent</h6>
-        <p>
-          A tracking code is sent to you via your preferred channel,
-          either WhatsApp or email, to monitor your shipment.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 4 -->
-  <div class="step-card step-4">
-    <div class="step-number">4</div>
-    <div class="step-body">
-      <div class="step-icon"><i class="bi bi-truck"></i></div>
-      <div class="step-content">
-        <h6>In Transit</h6>
-        <p>
-          Your cargo is picked up and transported to its destination.
-          You receive live status updates during transit.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 5 -->
-  <div class="step-card step-5">
-    <div class="step-number">5</div>
-    <div class="step-body">
-      <div class="step-icon"><i class="bi bi-check-circle"></i></div>
-      <div class="step-content">
-        <h6>Delivered & Confirmed</h6>
-        <p>
-          Delivery is confirmed electronically by the recipient. Headsup logisitcs verifies documentation to ensure all is in order, then releases payment to the transporter.
-        </p>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-
-
- <!-- DRIVER CONTENT -->
-<div id="driverContent" style="display:none;">
-
-  <!-- STEP 1 -->
-  <div class="step-card step-1">
-    <div class="step-number">1</div>
-    <div class="step-body">
-      <div class="step-icon"><i class="bi bi-book"></i></div>
-      <div class="step-content">
-        <h6>Learn to Work with Us</h6>
-        <p>
-          We guide you on how to work with our platform and processes.
-        </p>
-      </div>
-    </div>
-  </div>
-
-<!-- STEP 2 -->
-<div class="step-card step-2">
-  <div class="step-number">2</div>
-  <div class="step-body">
-    <div class="step-icon"><i class="bi bi-envelope-check"></i></div>
-    <div class="step-content">
-      <h6>Submit & Verify</h6>
-      <p>
-        Send your details. Our team inspects your truck onsite and responds instantly. Once approved, your truck is listed.
-      </p>
-    </div>
-  </div>
-</div>
-
-
-
-  <!-- STEP 3 -->
-  <div class="step-card step-3">
-    <div class="step-number">3</div>
-    <div class="step-body">
-      <div class="step-icon"><i class="bi bi-check2-square"></i></div>
-      <div class="step-content">
-        <h6>Accept Job</h6>
-        <p>
-          Receive order requests and accept jobs securely.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 4 -->
-  <div class="step-card step-4">
-    <div class="step-number">4</div>
-    <div class="step-body">
-      <div class="step-icon"><i class="bi bi-truck"></i></div>
-      <div class="step-content">
-        <h6>Deliver</h6>
-        <p>
-          Pick up and deliver the package as per the order instructions.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 5 -->
-  <div class="step-card step-5">
-    <div class="step-number">5</div>
-    <div class="step-body">
-      <div class="step-icon"><i class="bi bi-cash-stack"></i></div>
-      <div class="step-content">
-        <h6>Get Paid</h6>
-        <p>
-          Payment is credited after successful delivery confirmation.
-        </p>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-    </div>
-  </div>
-</section>
-
-<script>
-  const customerBtn = document.getElementById("customerBtn");
-  const driverBtn = document.getElementById("driverBtn");
-  const customerContent = document.getElementById("customerContent");
-  const driverContent = document.getElementById("driverContent");
-
-  customerBtn.onclick = () => {
-    customerBtn.classList.add("active");
-    driverBtn.classList.remove("active");
-    customerContent.style.display = "block";
-    driverContent.style.display = "none";
-  };
-
-  driverBtn.onclick = () => {
-    driverBtn.classList.add("active");
-    customerBtn.classList.remove("active");
-    driverContent.style.display = "block";
-    customerContent.style.display = "none";
-  };
-</script>
-
-
-
-<a href="https://www.flaticon.com/free-icons/arrows" title="arrows icons">Arrows icons created by ChilliColor - Flaticon</a>
-
-
-<section class="feature-area section_gap_top">
-    <div class="container">
-      <div class="row align-items-center justify-content-center">
-       <section class="feature-area section_gap_top">
-  <div class="container">
-    <div class="row align-items-center justify-content-center">
-      <div class="col-lg-7">
-        <div class="row">
-
-          <div class="col-lg-6 col-md-6">
-            <div class="single-feature">
-              <div class="icon-box"><i class="fa-solid fa-box"></i></div>
-              <h4>Shipment Tracking</h4>
-              <p>Track and monitor your shipment in real time with accurate logistics updates.</p>
-              <a href="#">Find your cargo</a>
-            </div>
-          </div>
-
-          <div class="col-lg-6 col-md-6">
-            <div class="single-feature">
-              <div class="icon-box"><i class="fa-solid fa-circle-question"></i></div>
-              <h4>Have a Question?</h4>
-              <p>Our support team is available 24/7 to answer all your logistics questions.</p>
-              <a href="#">Contact Us</a>
-            </div>
-          </div>
-
-          <div class="col-lg-6 col-md-6">
-            <div class="single-feature">
-              <div class="icon-box"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-              <h4>Get a Quote</h4>
-              <p>Get instant and accurate pricing for shipments anywhere in the world.</p>
-              <a href="#">Start a quote</a>
-            </div>
-          </div>
-
-          <div class="col-lg-6 col-md-6">
-            <div class="single-feature">
-              <div class="icon-box"><i class="fa-solid fa-calculator"></i></div>
-              <h4>Shipping Calculator</h4>
-              <p>Use our smart calculator to estimate your shipping cost instantly.</p>
-              <a href="#">Get Estimate</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-
-       <div class="col-lg-5 offset-md-0 col-md-12 about-modern mt-4 mt-lg-0">
-
-  <h5 class="sub-title">About Our Company</h5>
-
-  <h2 class="main-title">
-    We’re Carefully <br>
-    Delivering your <br>
-    <span class="highlight-text">Happiness</span>.
-  </h2>
-
-  <p class="about-lead">
-    We take logistics beyond transportation — we bring reliability,
-    transparency, and speed to every delivery.
-  </p>
-
-  <p class="about-body">
-    From door-to-door shipping to global freight management, our system is built
-    to give you real-time updates, automated calculation tools, and seamless
-    communication from pickup to delivery.
-    Your packages are handled with precision, backed by modern technology,
-    secure tracking, and a customer-first approach.
-  </p>
-
-  <a href="#" class="main_btn modern-btn">Learn More About Us</a>
-
-</div>
-
-      </div>
-    </div>
-  </section>
-
-
-
-
-
-
-
- <iframe src="try.html" title="Embedded Page" style="height: 100vh; overflow: hidden;"></iframe>
-
-
-
-
-
-  <!-- CTA BANNER -->
-  <div class="container_subscriber">
-    <div class="cta-banner">
-      <div class="cta-flex">
-        <div>
-          <h3 style="margin-bottom:6px">Ready to Move Your Goods?</h3>
-          <div style="color:rgba(255,255,255,0.9)">Get an instant quote or talk to our logistics experts for a tailored plan.</div>
-        </div>
-        <div style="display:flex;gap:12px">
-          <a class="btn-primary" href="#contact">Get Quote</a>
-          <a class="btn-secondary" href="#contact" style="background:transparent;border:2px solid rgba(255,255,255,0.18);color:#fff">Contact Sales</a>
-        </div>
-      </div>
-    </div>
-  </div>
- 
-
-
- <!-- MODERN WHITE FOOTER -->
-<footer class="modern-footer">
-  <div class="footer-container">
-    <!-- Column 1: Logo + Description + Social Links -->
-    <div class="footer-column">
-      <div class="footer-logo">
-        <img src="assets/logo.jpg">
-      </div>
-      <p class="footer-desc">
-        Reliable logistics, end-to-end. Serving businesses across the region with modern tracking and great service.
-      </p>
-      <div class="footer-socials">
-        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="mailto:hello@habsa.co" aria-label="Email"><i class="fas fa-envelope"></i></a>
-      </div>
-    </div>
-
-    <!-- Column 2: Company Links -->
-    <div class="footer-column">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Careers</a></li>
-        <li><a href="#">Partners</a></li>
-      </ul>
-    </div>
-
-    <!-- Column 3: Services -->
-    <div class="footer-column">
-      <h4>Services</h4>
-      <ul>
-        <li><a href="#">Road Freight</a></li>
-        <li><a href="#">Air Freight</a></li>
-        <li><a href="#">Warehousing</a></li>
-      </ul>
-    </div>
-
-    <!-- Column 4: Contact + Newsletter -->
-    <div class="footer-column">
-      <h4>Contact</h4>
-      <p>hello@habsa.co<br>+234 800 000 0000</p>
-
-      <h4>Subscribe</h4>
-      <div class="footer-subscribe">
-        <input type="email" placeholder="Enter your email">
-        <button>Subscribe</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer Bottom -->
-  <div class="footer-bottom">
-    <p>© 2025 HABSA Logistics. All rights reserved.</p>
-  </div>
-</footer>
-
-<style>
 .modern-footer {
   width: 100%;
   background: #ffffff;
@@ -1715,6 +1217,8 @@ Headsup logistics matches your cargo to one of our vetted transport partners. Yo
   flex-wrap: wrap;
   gap: 40px;
   max-width: 1200px;
+
+
   margin: 0 auto;
 }
 
@@ -1841,9 +1345,1242 @@ Headsup logistics matches your cargo to one of our vetted transport partners. Yo
     width: 100%;
   }
 }
+
+/* Smooth icon transition */
+#modalIcon {
+  transition: transform 0.3s ease;
+}
+
+/* Change icon scale on show */
+.modal.show #modalIcon {
+  transform: scale(1.1);
+}
+
+/* Rounded-pill button hover effect */
+.modal .btn-primary:hover {
+  background-color: #2563eb; /* darker blue */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: 0.3s ease;
+}
+
+/* Light shadow and padding for modal content */
+.modal-content {
+  padding: 1.5rem;
+  background-color: #ffffff;
+}
+
+
+.btn-dark{
+  background: black !important;
+}
 </style>
 
+
+</head>
+<body>
+
+  <!-- HEADER / NAV -->
+ <header class="site-header" id="header">
+   <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  <div class="container site-nav">
+    <div class="brand desktop-brand">
+      <div class="logo-box">
+        <img src="assets/logo.jpg">
+      </div>
+      <div class="title">HEADSUP <br>LOGISTICS</div>
+    </div>
+
+    <!-- Desktop nav -->
+    <nav class="desktop-nav">
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#track">Track</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+
+    <button class="btn-cta desktop-cta" href="#"  data-bs-toggle="modal"
+        data-bs-target="#contactModal">Contact Us</button>
+
+    <!-- Hamburger -->
+   
+  </div>
+
+  <!-- Off-canvas menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="close-btn" id="closeMenu">&times;</div>
+    <div class="brand">
+      <div class="logo-box">
+                <img src="assets/logo.jpg">
+
+      </div>
+      <div class="title">HEADSUP <br>LOGISTICS</div>
+    </div>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#track">Track</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn-cta" href="#"  data-bs-toggle="modal"
+        data-bs-target="#contactModal">Contact us</a>
+  </div>
+</header>
+
+
+
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero" id="home">
+    <!-- video (replace src with your mp4). Fallback uses uploaded image path below -->
+    <video autoplay muted loop playsinline>
+      <source src="assets/ren.mp4" type="video/mp4">
+      <!-- fallback video not supported -->
+    </video>
+
+    <!-- fallback image (uploaded by you) -->
+    <div class="video-fallback" style="background-image:url('/mnt/data/original-517bcdbaec4d34eca8ecf94315788a12.webp')"></div>
+
+    <div class="overlay" aria-hidden="true"></div>
+
+    <div class="hero-inner container">
+      <div class="hero-left">
+        <span class="kicker">Transport &amp; Logistics</span>
+        <h1>Smart logistics <br>
+          for modern<br> businesses</h1>
+        <p class="lead">We move goods quickly, safely and reliably across road, air &amp; sea — with real-time tracking, customs support and tailored fulfillment for enterprise clients.</p>
+
+        <div class="hero-ctas">
+          <a class="btn-primary" href="#services" data-bs-toggle="modal"
+        data-bs-target="#contactModal">Get Started</a>
+          <a class="btn-secondary" href="#track">Track Shipment</a>
+        </div>
+
+      
+      </div>
+
+      <div class="hero-right">
+        <div class="card-asset">
+          <!-- using the uploaded image file as visual asset -->
+          <img src="assets/design.png" alt="Logistics Truck Visual">
+        </div>
+    <!-- <img src="assets/wave.svg" alt="Extra Delivery Asset" class="hero-right-abs"> -->
+
+      </div>
+    </div>
+  </section>
+
+
+<section class="position-relative text-white" style="height: 100vh;">
+  <!-- Background Image -->
+ <!--  <div class="position-absolute w-100 h-100" style="background: url('assets/map.png') center/cover no-repeat;"></div>
+  <div class="position-absolute w-100 h-100" style="background: rgba(0,0,0,0.5);"></div>
+ -->
+  <div class="container-fluid h-100 position-relative d-flex align-items-center justify-content-between px-5">
+    <!-- Left Text (30%) -->
+    <div class="d-flex flex-column justify-content-center" style="width: 60%;">
+   <!-- Left Text (50%) -->
+
+    <!-- Headline with icon and color splash -->
+    <h2 class="display-3 fw-bold mb-4" style="line-height: 1.2;">
+      <i class="bi bi-truck me-3" style="color: #22c55e;"></i>
+      <span style="color: #fff; background: rgba(0,0,0,0.3); padding: 0 0.5rem; border-radius: 0.3rem;">Efficient</span>
+      <span style="color: #22c55e;">Logistics</span> Across Africa
+    </h2>
+
+    <!-- Supporting text -->
+    <p class="lead" style="font-size: 1.2rem; color: black; max-width: 450px;">
+      Connecting cargo owners with trusted transporters to move shipments faster, safer, and smarter.
+    </p>
+
+    </div>
+
+    <!-- Cards Side by Side -->
+ <div class="d-flex flex-wrap gap-4 justify-content-center" style="width: 65%;">
+
+  <!-- Left Card (Up) -->
+  <div class="card shadow-lg p-4 position-relative" style="width: 320px; height: 250px; border-radius: 1.5rem; transform: translateY(-20px); overflow: hidden; transition: transform 0.3s;">
+    <!-- Decorative gradient circle -->
+    <div class="position-absolute" style="top:-30px; right:-30px; width: 100px; height: 100px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; opacity: 0.2;"></div>
+    <div class="d-flex align-items-center mb-2">
+      <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-size: 1.2rem;">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <h5 class="card-title fw-bold ms-2 mb-0">Matching</h5>
+    </div>
+    <p class="card-text" style="font-size: 0.9rem; line-height: 1.4;">
+   HeadsUp Logistics   Matches cargo owners with trusted transporters to move cargo efficiently across Africa.
+    </p>
+  </div>
+
+  <!-- Right Card (Down) -->
+  <div class="card shadow-lg p-4 position-relative" style="width: 320px; height: 250px; border-radius: 1.5rem; transform: translateY(20px); overflow: hidden; transition: transform 0.3s;">
+    <!-- Decorative gradient circle -->
+    <div class="position-absolute" style="bottom:-30px; left:-30px; width: 100px; height: 100px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; opacity: 0.2;"></div>
+    <div class="d-flex align-items-center mb-2">
+      <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; font-size: 1.2rem;">
+        <i class="bi bi-lightning-fill"></i>
+      </div>
+      <h5 class="card-title fw-bold ms-2 mb-0">Innovation & Efficiency</h5>
+    </div>
+    <p class="card-text" style="font-size: 0.9rem; line-height: 1.4;">
+      All our innovation aims to lower the cost per km of transportation to benefit shippers while supporting transporters.
+    </p>
+  </div>
+
+</div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+<section class="bg-dark-blue py-5">
+  <div class="container text-center">
+
+    <!-- SWITCH -->
+    <div class="mb-5">
+      <div class="switch-wrapper">
+        <button id="customerBtn" class="switch-btn active">Customer</button>
+        <button id="driverBtn" class="switch-btn">Driver</button>
+      </div>
+    </div>
+
+    <div class="diagram-wrapper">
+
+      <!-- CENTER IMAGE -->
+      <img src="assets/side-Photoroom.png" class="img-fluid center-image" alt="Illustration">
+
+      <!-- CUSTOMER CONTENT -->
+    <!-- CUSTOMER CONTENT -->
+<!-- CUSTOMER CONTENT -->
+<div id="customerContent">
+
+  <!-- STEP 1 -->
+  <div class="step-card step-1">
+    <div class="step-number">1</div>
+    <div class="step-body">
+      <div class="step-icon"><i class="bi bi-plus-circle"></i></div>
+      <div class="step-content">
+  <h6>Create Pickup Request</h6>
+  <p>
+    Click the button to request pickup by selecting location, destination,
+    and preferred truck.
+  </p>
+
+  <!-- Modal Trigger Button -->
+  <button 
+    class="btn btn-sm mt-2"
+    style="
+      background:#22c55e;
+      color:#fff;
+      border-radius:10px;
+      padding:10px 16px;
+      font-weight:600;
+      border:none;
+    "
+     data-bs-toggle="modal" data-bs-target="#pickupModal">
+    Create Request
+  </button>
+</div>
+
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-card step-2">
+    <div class="step-number">2</div>
+    <div class="step-body">
+      <div class="step-icon"><i class="bi bi-shuffle"></i></div>
+      <div class="step-content">
+        <h6>Order Matching</h6>
+        <p>
+Headsup logistics matches your cargo to one of our vetted transport partners. You receive details on truck and driver.  </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step-card step-3">
+    <div class="step-number">3</div>
+    <div class="step-body">
+      <div class="step-icon"><i class="bi bi-envelope-check"></i></div>
+      <div class="step-content">
+        <h6>vb  Code Sent</h6>
+        <p>
+          A tracking code is sent to you via your preferred channel,
+          either WhatsApp or email, to monitor your shipment.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step-card step-4">
+    <div class="step-number">4</div>
+    <div class="step-body">
+      <div class="step-icon"><i class="bi bi-truck"></i></div>
+      <div class="step-content">
+        <h6>In Transit</h6>
+        <p>
+          Your cargo is picked up and transported to its destination.
+          You receive live status updates during transit.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step-card step-5">
+    <div class="step-number">5</div>
+    <div class="step-body">
+      <div class="step-icon"><i class="bi bi-check-circle"></i></div>
+      <div class="step-content">
+        <h6>Delivered & Confirmed</h6>
+        <p>
+          Delivery is confirmed electronically by the recipient. Headsup logisitcs verifies documentation to ensure all is in order, then releases payment to the transporter.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+ <!-- DRIVER CONTENT -->
+<div id="driverContent" style="display:none;">
+
+  <!-- STEP 1 -->
+  <div class="step-card step-1">
+    <div class="step-number">1</div>
+    <div class="step-body">
+      <div class="step-icon"><i class="bi bi-book"></i></div>
+      <div class="step-content">
+        <h6>Learn to Work with Us</h6>
+        <p>
+          We guide you on how to work with our platform and processes.
+        </p>
+      </div>
+    </div>
+  </div>
+
+<!-- STEP 2 -->
+<div class="step-card step-2">
+  <div class="step-number">2</div>
+  <div class="step-body">
+    <div class="step-icon"><i class="bi bi-envelope-check"></i></div>
+    <div class="step-content">
+      <h6>Submit & Verify</h6>
+      <p>
+        Send your details. Our team inspects your truck onsite and responds instantly. Once approved, your truck is listed.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
+  <!-- STEP 3 -->
+  <div class="step-card step-3">
+    <div class="step-number">3</div>
+    <div class="step-body">
+      <div class="step-icon"><i class="bi bi-check2-square"></i></div>
+      <div class="step-content">
+        <h6>Accept Job</h6>
+        <p>
+          Receive order requests and accept jobs securely.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step-card step-4">
+    <div class="step-number">4</div>
+    <div class="step-body">
+      <div class="step-icon"><i class="bi bi-truck"></i></div>
+      <div class="step-content">
+        <h6>Deliver</h6>
+        <p>
+          Pick up and deliver the package as per the order instructions.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step-card step-5">
+    <div class="step-number">5</div>
+    <div class="step-body">
+      <div class="step-icon"><i class="bi bi-cash-stack"></i></div>
+      <div class="step-content">
+        <h6>Get Paid</h6>
+        <p>
+          Payment is credited after successful delivery confirmation.
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="feature-area section_gap_top" style="margin-top: 5%;" id="about">
+    <div class="container">
+      <div class="row align-items-center justify-content-center">
+       <section class="feature-area section_gap_top">
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+    <div class="col-lg-7">
+  <div class="row">
+
+    <!-- Efficient Tracking -->
+    <div class="col-lg-6 col-md-6">
+      <div class="single-feature">
+        <div class="icon-box">
+          <i class="fa-solid fa-location-crosshairs"></i>
+        </div>
+        <h4>Efficient Tracking</h4>
+        <p>
+          Track your shipment in real time with clear status updates from pickup to delivery.
+        </p>
+        <a href="#">Track shipment</a>
+      </div>
+    </div>
+
+    <!-- Reliable Transport Partners -->
+    <div class="col-lg-6 col-md-6">
+      <div class="single-feature">
+        <div class="icon-box">
+          <i class="fa-solid fa-truck-fast"></i>
+        </div>
+        <h4>Reliable Transport</h4>
+        <p>
+          We work with verified and experienced transport partners to ensure safe delivery.
+        </p>
+        <a href="#" data-bs-toggle="modal" data-bs-target=" #reliableTransportArticle">How we deliver</a>
+      </div>
+    </div>
+
+    <!-- Transparency & Updates -->
+    <div class="col-lg-6 col-md-6">
+      <div class="single-feature">
+        <div class="icon-box">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <h4>Full Transparency</h4>
+        <p>
+          Stay informed with clear delivery timelines, movement history, and notifications.
+        </p>
+        <a href="#" data-bs-toggle="modal" data-bs-target="#transparencyArticle">Learn more</a>
+      </div>
+    </div>
+
+    <!-- 24/7 Support -->
+    <div class="col-lg-6 col-md-6">
+      <div class="single-feature">
+        <div class="icon-box">
+          <i class="fa-solid fa-headset"></i>
+        </div>
+        <h4>24/7 Support</h4>
+        <p>
+          Our support team is always available to assist you at every stage of delivery.
+        </p>
+        <a href="#">Contact support</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+       <div class="col-lg-5 offset-md-0 col-md-12 about-modern mt-4 mt-lg-0">
+
+  <h5 class="sub-title">About Our Company</h5>
+
+  <h2 class="main-title">
+    We’re Carefully <br>
+    Delivering your <br>
+    <span class="highlight-text">Happiness</span>.
+  </h2>
+
+  <p class="about-lead">
+    We take logistics beyond transportation — we bring reliability,
+    transparency, and speed to every delivery.
+  </p>
+
+  <p class="about-body">
+    From door-to-door shipping to global freight management, our system is built
+    to give you real-time updates, automated calculation tools, and seamless
+    communication from pickup to delivery.
+    Your packages are handled with precision, backed by modern technology,
+    secure tracking, and a customer-first approach.
+  </p>
+
+  <a href="#" class="main_btn modern-btn">Learn More About Us <span><i class="fa-solid fa-caret-right"></i></span>
+  </a>
+</div>
+
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+ <iframe src="try.html" id="track"title="Embedded Page" style="height: 100vh; overflow: hidden;"></iframe>
+
+
+
+
+
+
+ <div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 shadow-lg">
+
+      <!-- Header -->
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold">
+          👋 Let’s hear from you
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body pt-2">
+        <p class="text-muted small mb-4">
+          Please fill in your details and we’ll get back to you shortly.
+        </p>
+
+        <form id="contactForm">
+  <!-- Full Name -->
+  <div class="mb-3">
+    <label class="form-label small">Full Name</label>
+    <input
+      type="text"
+      id="full_name"
+      class="form-control rounded-3"
+      required
+      placeholder="Enter your full name"
+    >
+  </div>
+
+  <!-- Email or Phone -->
+  <div class="mb-3">
+    <label class="form-label small">Email or Phone Number</label>
+    <input
+      type="text"
+      id="contact"
+      class="form-control rounded-3"
+      required
+      placeholder="example@email.com or 080xxxxxxx"
+    >
+  </div>
+
+  <!-- Message -->
+  <div class="mb-4">
+    <label class="form-label small">Message</label>
+    <textarea
+      id="message"
+      class="form-control rounded-3"
+      rows="4"
+      required
+      placeholder="Type your message here..."
+    ></textarea>
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-success w-100 py-2 rounded-pill fw-semibold">
+    Send Message 🚀
+  </button>
+</form>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FULL TRANSPARENCY ARTICLE MODAL -->
+<div class="modal fade" id="transparencyArticle" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 border-0 shadow-lg">
+
+      <div class="modal-header border-0">
+        <h4 class="modal-title fw-bold">
+          Full Transparency & Shipment Visibility
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <p class="text-muted">
+          We believe customers should never be left guessing where their cargo is or
+          what stage it is at. Transparency is built into every step of our logistics process.
+        </p>
+
+        <h6 class="fw-semibold mt-4">What you see, always</h6>
+        <ul class="list-unstyled mt-2">
+          <li class="mb-2">
+            <i class="fa-solid fa-check text-success me-2"></i>
+            Real-time shipment tracking from pickup to delivery
+          </li>
+          <li class="mb-2">
+            <i class="fa-solid fa-check text-success me-2"></i>
+            Clear delivery timelines with estimated arrival updates
+          </li>
+          <li class="mb-2">
+            <i class="fa-solid fa-check text-success me-2"></i>
+            Movement history showing every major transit point
+          </li>
+          <li class="mb-2">
+            <i class="fa-solid fa-check text-success me-2"></i>
+            Instant notifications for loading, transit, delays, and delivery
+          </li>
+        </ul>
+
+        <p class="text-muted mt-3">
+          With this level of visibility, you stay in control, make better decisions,
+          and trust that your shipment is moving as planned.
+        </p>
+      </div>
+
+      <div class="modal-footer border-0">
+        <a href="#tracking" class="btn btn-success rounded-pill px-4">
+          Track your shipment
+        </a>
+        <button class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- RELIABLE TRANSPORT ARTICLE MODAL -->
+<!-- RELIABLE TRANSPORT ARTICLE MODAL -->
+<div class="modal fade" id="reliableTransportArticle" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+    <div class="modal-content rounded-4 border-0 shadow-lg">
+
+      <!-- Header -->
+      <div class="modal-header border-0">
+        <h4 class="modal-title fw-bold">
+          Reliable Transport You Can Trust
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body">
+
+        <p class="text-muted mb-4">
+          Safe and timely delivery starts with the right people and a clear process.
+          Our transport workflow is structured, monitored, and transparent.
+        </p>
+
+        <!-- TIMELINE -->
+        <div class="timeline">
+
+          <!-- Step 1 -->
+          <div class="timeline-item">
+            <span class="timeline-dot"></span>
+            <div class="timeline-content">
+              <h6 class="fw-semibold mb-1">
+                Verified Partner Assignment
+              </h6>
+              <p class="small text-muted mb-0">
+                Each shipment is matched with vetted drivers and inspected trucks.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="timeline-item">
+            <span class="timeline-dot"></span>
+            <div class="timeline-content">
+              <h6 class="fw-semibold mb-1">
+                Secure Pickup & Loading
+              </h6>
+              <p class="small text-muted mb-0">
+                Cargo is carefully loaded and confirmed before movement begins.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="timeline-item">
+            <span class="timeline-dot"></span>
+            <div class="timeline-content">
+              <h6 class="fw-semibold mb-1">
+                Live Monitoring in Transit
+              </h6>
+              <p class="small text-muted mb-0">
+                Shipments are tracked continuously to ensure safety and progress.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="timeline-item">
+            <span class="timeline-dot"></span>
+            <div class="timeline-content">
+              <h6 class="fw-semibold mb-1">
+                Delivery & Confirmation
+              </h6>
+              <p class="small text-muted mb-0">
+                Delivery is confirmed digitally with complete documentation.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer border-0">
+        <a href="#contact" class="btn btn-success rounded-pill px-4">
+          Talk to our team
+        </a>
+        <button class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+ <!-- MODERN WHITE FOOTER -->
+<footer class="modern-footer">
+  <div class="footer-container">
+    <!-- Column 1: Logo + Description + Social Links -->
+    <div class="footer-column">
+      <div class="footer-logo">
+        <img src="assets/logo.jpg">
+      </div>
+      <p class="footer-desc">
+        Reliable logistics, end-to-end. Serving businesses across the region with modern tracking and great service.
+      </p>
+      <div class="footer-socials">
+        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="mailto:hello@habsa.co" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      </div>
+    </div>
+
+    <!-- Column 2: Company Links -->
+    <div class="footer-column">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Partners</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3: Services -->
+    <div class="footer-column">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Road Freight</a></li>
+        <li><a href="#">Air Freight</a></li>
+        <li><a href="#">Warehousing</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 4: Contact + Newsletter -->
+    <div class="footer-column">
+      <h4>Contact</h4>
+      <p>hello@habsa.co<br>+234 800 000 0000</p>
+
+      <h4>Subscribe</h4>
+      <div class="footer-subscribe">
+        <input type="email" placeholder="Enter your email">
+        <button>Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="footer-bottom">
+    <p>© 2025 HABSA Logistics. All rights reserved.</p>
+  </div>
+</footer>
+
+
+<!-- REQUEST PICKUP MODAL -->
+<div class="modal fade" id="pickupModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md modal-fullscreen-sm-down">
+    <div class="modal-content border-0 rounded-4 shadow-sm">
+
+      <!-- Header -->
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-semibold" id="pickupModalLabel">
+          Request Pickup
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body pt-2">
+
+        <form id="pickupForm" class="small-form">
+
+          <!-- Pickup Location -->
+          <div class="mb-2 position-relative">
+            <label for="pickupLocation" class="form-label small fw-medium">
+              Pickup location
+            </label>
+            <input
+              type="text"
+              id="pickupLocation"
+              name="pickup_location"
+              class="form-control form-control-sm rounded-3"
+              placeholder="Enter pickup location"
+              autocomplete="off"
+              required
+            >
+            <div
+              class="list-group position-absolute w-100 z-3"
+              id="pickupResults">
+            </div>
+          </div>
+
+          <!-- Destination -->
+          <div class="mb-2 position-relative">
+            <label for="destination" class="form-label small fw-medium">
+              Destination
+            </label>
+            <input
+              type="text"
+              id="destination"
+              name="destination"
+              class="form-control form-control-sm rounded-3"
+              placeholder="Enter destination"
+              autocomplete="off"
+              required
+            >
+            <div
+              class="list-group position-absolute w-100 z-3"
+              id="destinationResults">
+            </div>
+          </div>
+
+          <!-- Truck Type -->
+          <div class="mb-2">
+            <label for="truckType" class="form-label small fw-medium">
+              Truck type
+            </label>
+            <select
+              id="truckType"
+              name="truck_type"
+              class="form-select form-select-sm rounded-3"
+              required
+            >
+              <option value="">Select truck</option>
+              <option value="Mini Truck">Mini Truck</option>
+              <option value="Pickup Van">Pickup Van</option>
+              <option value="Box Truck">Box Truck</option>
+              <option value="Flatbed">Flatbed</option>
+              <option value="Trailer">Trailer</option>
+            </select>
+          </div>
+
+          <!-- Phone -->
+          <div class="mb-2">
+            <label for="pickupPhone" class="form-label small fw-medium">
+              Phone number
+            </label>
+            <input
+              type="tel"
+              id="pickupPhone"
+              name="phone"
+              class="form-control form-control-sm rounded-3"
+              placeholder="+234 801 234 5678"
+              required
+            >
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label for="pickupEmail" class="form-label small fw-medium">
+              Email
+            </label>
+            <input
+              type="email"
+              id="pickupEmail"
+              name="email"
+              class="form-control form-control-sm rounded-3"
+              placeholder="you@example.com"
+              required
+            >
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            id="pickupSubmitBtn"
+            class="btn btn-success w-100 rounded-pill py-2 fw-medium"
+          >
+            Request Pickup
+          </button>
+
+          <p class="text-muted text-center mt-2" style="font-size:12px;">
+            We’ll contact you shortly to confirm details.
+          </p>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- GET QUOTE MODAL -->
+<div class="modal fade" id="quoteModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-md modal-fullscreen-sm-down">
+    <div class="modal-content border-0 rounded-4 shadow-sm">
+
+      <!-- Header -->
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-semibold">
+          <i class="bi bi-currency-exchange text-success me-2"></i>
+          Get a Shipping Quote
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Body -->
+      <div class="modal-body pt-2">
+
+        <p class="text-muted small mb-3">
+          Enter shipment details to receive an estimated delivery quote.
+        </p>
+
+        <form id="quoteForm">
+
+          <!-- Pickup -->
+          <div class="mb-2">
+            <label class="form-label small fw-medium">
+              <i class="bi bi-geo-alt me-1"></i> Pickup location
+            </label>
+            <input type="text"
+              class="form-control form-control-sm rounded-3"
+              placeholder="Enter pickup location" required>
+          </div>
+
+          <!-- Destination -->
+          <div class="mb-2">
+            <label class="form-label small fw-medium">
+              <i class="bi bi-flag me-1"></i> Destination
+            </label>
+            <input type="text"
+              class="form-control form-control-sm rounded-3"
+              placeholder="Enter destination" required>
+          </div>
+
+          <!-- Truck Type -->
+          <div class="mb-2">
+            <label class="form-label small fw-medium">
+              <i class="bi bi-truck me-1"></i> Truck type
+            </label>
+            <select class="form-select form-select-sm rounded-3" required>
+              <option value="">Select truck</option>
+              <option>Mini Truck</option>
+              <option>Pickup Van</option>
+              <option>Box Truck</option>
+              <option>Flatbed</option>
+              <option>Trailer</option>
+            </select>
+          </div>
+
+          <!-- Load Type -->
+          <div class="mb-2">
+            <label class="form-label small fw-medium">
+              <i class="bi bi-box-seam me-1"></i> Cargo type
+            </label>
+            <input type="text"
+              class="form-control form-control-sm rounded-3"
+              placeholder="e.g. Furniture, Cement, Food items" required>
+          </div>
+
+          <!-- Contact -->
+          <div class="mb-3">
+            <label class="form-label small fw-medium">
+              <i class="bi bi-telephone me-1"></i> Phone number
+            </label>
+            <input type="tel"
+              class="form-control form-control-sm rounded-3"
+              placeholder="+234 801 234 5678" required>
+          </div>
+
+          <!-- Button -->
+          <button type="submit"
+            class="btn btn-success w-100 rounded-pill py-2 fw-medium">
+            Get Quote
+          </button>
+
+          <p class="text-center text-muted mt-2" style="font-size:12px;">
+            No obligation. Pricing is estimated.
+          </p>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-4 border-0 shadow">
+
+      <div class="modal-body text-center p-4">
+        <div class="mb-3">
+          <i class="bi bi-check-circle-fill text-success fs-1"></i>
+        </div>
+
+        <h5 class="fw-bold mb-2">Message Sent Successfully 🎉</h5>
+
+        <p class="text-muted mb-0">
+          We’ll get back to you shortly.  
+          Please check your <strong>email</strong> or <strong>WhatsApp</strong>
+          message from us.
+        </p>
+
+        <button
+          type="button"
+          class="btn btn-dark mt-4 px-4"
+          data-bs-dismiss="modal"
+        >
+          Okay
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Message Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 p-3">
+      <div class="modal-body text-center py-4 px-3">
+        
+        <!-- Icon -->
+        <div class="mb-3">
+          <i id="modalIcon" class="bi fs-1"></i>
+        </div>
+
+        <!-- Title -->
+        <h5 id="modalTitle" class="fw-bold mb-2"></h5>
+
+        <!-- Message -->
+        <p id="modalMessage" class="text-muted mb-3"></p>
+
+        <!-- Button -->
+        <button type="button" class="btn  btn-dark px-4 py-2 rounded-pill" data-bs-dismiss="modal">
+          Okay
+        </button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- FEEDBACK MODAL -->
+<div class="modal fade" id="feedbackModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content rounded-4">
+
+      <div class="modal-body text-center py-4">
+        <div id="feedbackIcon" class="mb-2 fs-1"></div>
+
+        <h6 id="feedbackTitle" class="fw-semibold mb-1"></h6>
+        <p id="feedbackMessage" class="small text-muted mb-0"></p>
+      </div>
+
+      <div class="modal-footer border-0 pt-0">
+        <button
+          type="button"
+          class="btn btn-success w-100 rounded-pill"
+          data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
 <script>
+const SUPABASE_URL = "https://xncutsnsqmgboacqnvlj.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_CaIZ6ht7hq1bBE8hxer8yA_wrKa7Nta";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+
+document.getElementById("contactForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const fullName = document.getElementById("full_name").value.trim();
+  const contact = document.getElementById("contact").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  let email = null;
+  let phone = null;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^(?:\+234|0)[789][01]\d{8}$/;
+
+  // Modal elements
+  const modal = new bootstrap.Modal(document.getElementById("messageModal"));
+  const modalTitle = document.getElementById("modalTitle");
+  const modalMessage = document.getElementById("modalMessage");
+  const modalIcon = document.getElementById("modalIcon");
+
+  // Validate contact
+  if (emailRegex.test(contact)) {
+    email = contact;
+  } else if (phoneRegex.test(contact)) {
+    phone = contact;
+  } else {
+    modalTitle.textContent = "Invalid Contact";
+    modalMessage.textContent = "Please enter a valid email address or phone number.";
+    modalIcon.className = "bi bi-exclamation-circle-fill text-danger fs-1";
+    modal.show();
+    return;
+  }
+
+  if (!fullName || !message) {
+    modalTitle.textContent = "Incomplete Form";
+    modalMessage.textContent = "Please fill in all required fields.";
+    modalIcon.className = "bi bi-exclamation-circle-fill text-danger fs-1";
+    modal.show();
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("visitor_messages")
+    .insert({
+      full_name: fullName,
+      email: email,
+      phone: phone,
+      message: message
+    });
+
+  if (error) {
+    modalTitle.textContent = "Submission Failed";
+    modalMessage.textContent = "Something went wrong. Please try again.";
+    modalIcon.className = "bi bi-x-circle-fill text-danger fs-1";
+    console.error(error);
+    modal.show();
+  } else {
+    // Reset form
+    e.target.reset();
+
+    // Close contact modal
+    const contactModalEl = document.getElementById("contactModal");
+    const contactModal = bootstrap.Modal.getInstance(contactModalEl);
+    contactModal.hide();
+
+    // Show success message
+    modalTitle.textContent = "Message Sent ✅";
+    modalMessage.textContent = "We’ll get back to you shortly. Please check your email or WhatsApp.";
+    modalIcon.className = "bi bi-check-circle-fill text-success fs-1";
+    modal.show();
+  }
+});
+
+
+ const pickupForm = document.getElementById("pickupForm");
+
+pickupForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const pickup_location = document.getElementById("pickupLocation").value.trim();
+  const destination = document.getElementById("destination").value.trim();
+  const truck_type = document.getElementById("truckType").value;
+  const phone = document.getElementById("pickupPhone").value.trim();
+  const email = document.getElementById("pickupEmail").value.trim();
+
+  if (!pickup_location || !destination || !truck_type || !phone || !email) {
+    showFeedback(
+      "error",
+      "Missing Information",
+      "Please fill in all fields before submitting."
+    );
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("pickup_requests")
+    .insert([
+      {
+        pickup_location,
+        destination,
+        truck_type,
+        phone,
+        email,
+        status: "pending"
+      }
+    ]);
+
+  if (error) {
+    console.error("Supabase error:", error);
+    showFeedback(
+      "error",
+      "Request Failed",
+      "We couldn’t send your request. Please try again."
+    );
+    return;
+  }
+
+  // ✅ Success
+  pickupForm.reset();
+
+  showFeedback(
+    "success",
+    "Request Sent!",
+    "We’ll contact you shortly to confirm your pickup."
+  );
+
+  // Close pickup modal
+  const pickupModal = bootstrap.Modal.getInstance(
+    document.getElementById("pickupModal")
+  );
+  pickupModal?.hide();
+});
+
 const header = document.getElementById('header');
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -1872,28 +2609,28 @@ closeBtn.addEventListener('click', () => {
 </script>
 
 <script>
-function checkAllOverflow() {
-  const allElements = document.body.querySelectorAll("*");
+// function checkAllOverflow() {
+//   const allElements = document.body.querySelectorAll("*");
   
-  allElements.forEach(el => {
-    const rect = el.getBoundingClientRect();
-    const overflowRight = rect.right - window.innerWidth;
-    const overflowLeft = rect.left;
+//   allElements.forEach(el => {
+//     const rect = el.getBoundingClientRect();
+//     const overflowRight = rect.right - window.innerWidth;
+//     const overflowLeft = rect.left;
     
-    if (overflowRight > 0 || overflowLeft < 0) {
-      el.style.outline = "2px solid red";
-      console.log(
-        "Overflowing element:",
-        el,
-        "Overflow Right:", overflowRight + "px",
-        "Overflow Left:", overflowLeft + "px"
-      );
-    }
-  });
-}
+//     if (overflowRight > 0 || overflowLeft < 0) {
+//       el.style.outline = "2px solid red";
+//       console.log(
+//         "Overflowing element:",
+//         el,
+//         "Overflow Right:", overflowRight + "px",
+//         "Overflow Left:", overflowLeft + "px"
+//       );
+//     }
+//   });
+// }
 
-checkAllOverflow();
-window.addEventListener("resize", checkAllOverflow);
+// checkAllOverflow();
+// window.addEventListener("resize", checkAllOverflow);
 </script>
 
 
@@ -1922,7 +2659,83 @@ window.addEventListener("resize", checkAllOverflow);
   );
 
   cards.forEach(card => observer.observe(card));
+
+  const customerBtn = document.getElementById("customerBtn");
+  const driverBtn = document.getElementById("driverBtn");
+  const customerContent = document.getElementById("customerContent");
+  const driverContent = document.getElementById("driverContent");
+
+  customerBtn.onclick = () => {
+    customerBtn.classList.add("active");
+    driverBtn.classList.remove("active");
+    customerContent.style.display = "block";
+    driverContent.style.display = "none";
+  };
+
+  driverBtn.onclick = () => {
+    driverBtn.classList.add("active");
+    customerBtn.classList.remove("active");
+    driverContent.style.display = "block";
+    customerContent.style.display = "none";
+  };
+
+
+const pickupInput = document.getElementById("pickupLocation");
+const pickupResults = document.getElementById("pickupResults");
+
+const destinationInput = document.getElementById("destination");
+const destinationResults = document.getElementById("destinationResults");
+
+// Generic function to fetch places
+async function fetchPlaces(query, resultBox) {
+  if (query.length < 3) {
+    resultBox.innerHTML = "";
+    return;
+  }
+
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;
+
+  const res = await fetch(url);
+  const data = await res.json();
+
+  resultBox.innerHTML = "";
+
+  data.slice(0, 5).forEach(place => {
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "list-group-item list-group-item-action";
+    item.textContent = place.display_name;
+
+    item.onclick = () => {
+      resultBox.previousElementSibling.value = place.display_name;
+      resultBox.innerHTML = "";
+    };
+
+    resultBox.appendChild(item);
+  });
+}
+
+// Pickup autocomplete
+pickupInput.addEventListener("input", () => {
+  fetchPlaces(pickupInput.value, pickupResults);
+});
+
+// Destination autocomplete
+destinationInput.addEventListener("input", () => {
+  fetchPlaces(destinationInput.value, destinationResults);
+});
+
+// Close suggestions when clicking outside
+document.addEventListener("click", () => {
+  pickupResults.innerHTML = "";
+  destinationResults.innerHTML = "";
+});
+
+
 </script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 
 </body>
