@@ -7,50 +7,58 @@ import { Button } from '@/components/ui/button';
 import TimelineItem from '@/components/about/TimelineItem';
 
 const timelineData = [
-    {
-        icon: Building2,
-        year: '2015',
-        title: 'Company Founded',
-        description: 'Started with a vision to revolutionize logistics and supply chain management with innovative technology and customer-first approach.'
-    },
-    {
-        icon: Rocket,
-        year: '2017',
-        title: 'National Expansion',
-        description: 'Expanded operations across the country with 20+ distribution centers, serving thousands of businesses nationwide.'
-    },
-    {
-        icon: Globe2,
-        year: '2019',
-        title: 'Global Reach',
-        description: 'Extended services to 150+ countries worldwide, establishing strategic partnerships with international carriers and customs brokers.'
-    },
-    {
-        icon: Award,
-        year: '2021',
-        title: 'Industry Recognition',
-        description: 'Awarded "Logistics Provider of the Year" for excellence in service delivery, innovation, and sustainability initiatives.'
-    },
-    {
-        icon: Users,
-        year: '2023',
-        title: 'Team Growth',
-        description: 'Grew to a team of 500+ logistics experts, engineers, and support staff dedicated to delivering exceptional service.'
-    },
-    {
-        icon: TrendingUp,
-        year: '2024',
-        title: 'Innovation Leader',
-        description: 'Launched AI-powered route optimization and real-time tracking platform, setting new industry standards for efficiency.'
-    }
+  {
+    icon: Building2,
+    year: '2024',
+    title: 'The Journey Begins',
+    description:
+      'The company officially began operations, driven by a strong vision to deliver reliable, efficient, and customer-focused solutions.'
+  },
+  {
+    icon: Rocket,
+    year: '2024',
+    title: 'Early Progress',
+    description:
+      'Within the first months, we secured our initial clients, completed successful projects, and started building trust through consistent service delivery.'
+  },
+  {
+    icon: Users,
+    year: '2024',
+    title: 'Building the Team',
+    description:
+      'A dedicated team was assembled, internal processes were defined, and systems were put in place to support quality and accountability.'
+  },
+  {
+    icon: Globe2,
+    year: '2025',
+    title: 'Service Expansion',
+    description:
+      'Operations expanded into new areas, allowing us to serve a wider range of clients while improving speed, coordination, and reliability.'
+  },
+  {
+    icon: TrendingUp,
+    year: '2025',
+    title: 'Growth & Improvement',
+    description:
+      'The focus shifted to refining operations, strengthening partnerships, and improving efficiency to support long-term, sustainable growth.'
+  },
+  {
+    icon: Award,
+    year: 'Ahead',
+    title: 'Looking Forward',
+    description:
+      'We continue to work towards industry recognition by maintaining high standards, embracing innovation, and exceeding client expectations.'
+  }
 ];
+
+
 
 export default function AboutUs() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
             {/* Back button */}
             <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-8">
-                <Link to={createPageUrl('Services')}>
+                <Link to={createPageUrl("/")}>
                     <Button variant="ghost" className="gap-2 hover:bg-lime-50 hover:text-lime-600 transition-colors">
                         <ArrowLeft className="w-4 h-4" />
                         Back to Services
@@ -90,14 +98,14 @@ export default function AboutUs() {
                     {/* Stats */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        animate={{ opacity-: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.3 }}
                         className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-8"
                     >
                         {[
-                            { value: '500+', label: 'Team Members' },
-                            { value: '150+', label: 'Countries' },
-                            { value: '10K+', label: 'Happy Clients' },
+                            { value: '50+', label: 'Active Partner' },
+                            { value: '32+', label: 'States' },
+                            { value: '30-+', label: 'Happy Clients' },
                             { value: '99.8%', label: 'On-Time Rate' }
                         ].map((stat, index) => (
                             <div key={index} className="text-center">

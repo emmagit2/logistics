@@ -51,7 +51,10 @@
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css">
-
+ <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.js"></script>
 
@@ -1084,6 +1087,15 @@ header.site-header, .mobile-menu, .hamburger span {
     z-index: 1;
   }
 
+  /* Screen size less than or equal to 600px */
+@media screen and (max-width: 600px) {
+   /* STEP CARD */
+  .step-card {
+  margin-top: 2%;
+  }
+}
+
+
   /* NUMBER BADGE */
   .step-number {
     position: absolute;
@@ -1490,8 +1502,8 @@ nav a:hover{
 
     <div class="overlay" aria-hidden="true"></div>
 
-    <div class="hero-inner container">
-      <div class="hero-left">
+    <div class="hero-inner container ">
+      <div class="hero-left animate__animated animate__fadeInDown">
         <span class="kicker">Transport &amp; Logistics</span>
         <h1>Smart logistics <br>
           for modern<br> businesses</h1>
@@ -1546,7 +1558,7 @@ nav a:hover{
  <div class="d-flex flex-wrap gap-4 justify-content-center" style="width: 65%;">
 
   <!-- Left Card (Up) -->
-  <div class="card shadow-lg p-4 position-relative" style="width: 320px; height: 250px; border-radius: 1.5rem; transform: translateY(-20px); overflow: hidden; transition: transform 0.3s;">
+  <div class="card animate__animated animate__jackInTheBox shadow-lg p-4 position-relative" style="width: 320px; height: 250px; border-radius: 1.5rem; transform: translateY(-20px); overflow: hidden; transition: transform 0.3s;">
     <!-- Decorative gradient circle -->
     <div class="position-absolute" style="top:-30px; right:-30px; width: 100px; height: 100px; background: linear-gradient(135deg, #22c55e, #16a34a); border-radius: 50%; opacity: 0.2;"></div>
     <div class="d-flex align-items-center mb-2">
@@ -1657,7 +1669,7 @@ Headsup logistics matches your cargo to one of our vetted transport partners. Yo
     <div class="step-body">
       <div class="step-icon"><i class="bi bi-envelope-check"></i></div>
       <div class="step-content">
-        <h6>vb  Code Sent</h6>
+        <h6>  Code Sent</h6>
         <p>
           A tracking code is sent to you via your preferred channel,
           either WhatsApp or email, to monitor your shipment.
@@ -2132,7 +2144,7 @@ Headsup logistics matches your cargo to one of our vetted transport partners. Yo
       <div class="footer-socials">
         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="mailto:hello@habsa.co" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        <a href="mailto:Simon@headsupnigerialimited.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
       </div>
     </div>
 
@@ -2159,19 +2171,15 @@ Headsup logistics matches your cargo to one of our vetted transport partners. Yo
     <!-- Column 4: Contact + Newsletter -->
     <div class="footer-column">
       <h4>Contact</h4>
-      <p>hello@habsa.co<br>+234 800 000 0000</p>
+      <p>Simon@headsupnigerialimited.com<br>+234 904 641 6082</p>
 
-      <h4>Subscribe</h4>
-      <div class="footer-subscribe">
-        <input type="email" placeholder="Enter your email">
-        <button>Subscribe</button>
-      </div>
+    
     </div>
   </div>
 
   <!-- Footer Bottom -->
   <div class="footer-bottom">
-    <p>© 2025 HABSA Logistics. All rights reserved.</p>
+    <p>© 2025 Headsup Nigeria Limited. All rights reserved.</p>
   </div>
 </footer>
 

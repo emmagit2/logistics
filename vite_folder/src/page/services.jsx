@@ -1,7 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Truck, Package, Globe, Clock } from 'lucide-react';
-import ServiceCard from '@/components/service/Servicecard';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils/createPageUrl';
+import { Button } from '@/components/ui/button';
+import ServiceCard from '@/components/service/ServiceCard';
 
 const services = [
     {
@@ -17,7 +20,7 @@ const services = [
     {
         icon: Globe,
         title: "Global Shipping",
-        description: "International logistics expertise spanning 150+ countries. Customs brokerage, documentation, and compliance handled with precision for smooth cross-border operations."
+        description: "International logistics expertise spanning  36+ States. Customs brokerage, documentation, and compliance handled with precision for smooth cross-border operations."
     },
     {
         icon: Clock,
@@ -29,6 +32,39 @@ const services = [
 export default function Services() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
+            {/* About Us Button */}
+       <div className="fixed top-8 right-8 z-50 flex items-center gap-4">
+  <a
+  href="https://headsupnigerialimited.com"
+  className="flex items-center gap-1 px-3 py-1.5
+    text-sm font-medium text-white
+    rounded-lg
+    bg-zinc-900/90 border border-zinc-700
+    shadow-md
+    hover:bg-zinc-800 hover:border-zinc-600
+    transition-all"
+>
+  ← Back to Home
+</a>
+  <Link to={createPageUrl('About')}>
+
+    <Button className="bg-gradient-to-r from-lime-500 to-green-500 
+      hover:from-lime-600 hover:to-green-600 
+      text-white shadow-2xl shadow-lime-500/40 
+      hover:shadow-lime-500/60 
+      px-8 py-6 text-lg rounded-2xl font-semibold 
+      transition-all hover:scale-105">
+      About Us
+    </Button>
+  </Link>
+
+
+
+</div>
+
+                
+
+
             {/* Hero Section */}
             <section className="relative overflow-hidden">
                 {/* Background decorations */}
@@ -48,7 +84,7 @@ export default function Services() {
                     >
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-lime-100/80 border border-lime-200/50 backdrop-blur-sm">
                             <div className="w-2 h-2 rounded-full bg-lime-500 animate-pulse" />
-                            <span className="text-sm font-medium text-lime-700">Trusted by 500+ Enterprises</span>
+                            <span className="text-sm font-medium text-lime-700">Trusted by 100+ Enterprises</span>
                         </div>
                     </motion.div>
 
@@ -79,7 +115,7 @@ export default function Services() {
                     >
                         {[
                             { value: "99.8%", label: "On-Time Delivery" },
-                            { value: "150+", label: "Countries Served" },
+                            { value: "32+", label: "States Served" },
                             { value: "24/7", label: "Live Support" }
                         ].map((stat, index) => (
                             <div key={index} className="text-center">

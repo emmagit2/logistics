@@ -5,12 +5,11 @@ import AboutUs from "@/page/About";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/services">
       <Routes>
         {/* Public pages */}
-        <Route path="/services" element={<Services />} />
+        <Route path="/" element={<Services />} />
         <Route path="/about" element={<AboutUs />} />
-
       </Routes>
     </BrowserRouter>
   );
